@@ -52,7 +52,7 @@ function WebhookSignalConfig() {
           </div>
         </div>
         <div className="flex w-full max-w-[1024px] items-start gap-6">
-          <div className="flex grow shrink-0 basis-0 flex-col items-start gap-6 min-h-0">
+          <div className="flex grow shrink-0 basis-0 flex-col items-start gap-6">
             <div className="flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
               <div className="flex w-full flex-col items-start gap-4">
                 <div className="flex w-full items-center justify-between">
@@ -67,7 +67,7 @@ function WebhookSignalConfig() {
                 {isWebhookDestinationOpen && (
                   <div className="flex w-full flex-col items-start gap-4">
                     <TextField 
-                      className="h-auto w-full flex-none"
+                      className="h-auto w-full"
                       label="Webhook URL" 
                       helpText="The endpoint where analytics data will be sent"
                     >
@@ -80,7 +80,7 @@ function WebhookSignalConfig() {
                     </TextField>
                     
                     <Select
-                      className="h-auto w-full flex-none"
+                      className="h-auto w-full"
                       label="HTTP Method"
                       placeholder="Select method"
                       helpText="HTTP method for the webhook request"
@@ -106,7 +106,7 @@ function WebhookSignalConfig() {
                       </div>
                       
                       <Select
-                        className="h-auto w-full flex-none"
+                        className="h-auto w-full"
                         label="Authentication Type"
                         placeholder="Select authentication"
                         helpText="How should the webhook authenticate?"
@@ -123,7 +123,7 @@ function WebhookSignalConfig() {
                       {authType === "api-key" && (
                         <div className="flex w-full items-start gap-4">
                           <TextField 
-                            className="h-auto w-full flex-none"
+                            className="h-auto w-full"
                             label="Header Name" 
                             helpText="API key header name"
                           >
@@ -134,7 +134,7 @@ function WebhookSignalConfig() {
                             />
                           </TextField>
                           <TextField 
-                            className="h-auto w-full flex-none"
+                            className="h-auto w-full"
                             label="API Key" 
                             helpText="Your API key value"
                           >
@@ -150,7 +150,7 @@ function WebhookSignalConfig() {
                       
                       {authType === "bearer-token" && (
                         <TextField 
-                          className="h-auto w-full flex-none"
+                          className="h-auto w-full"
                           label="Bearer Token" 
                           helpText="Your bearer token for Authorization header"
                         >
@@ -166,7 +166,7 @@ function WebhookSignalConfig() {
                       {authType === "basic-auth" && (
                         <div className="flex w-full items-start gap-4">
                           <TextField 
-                            className="h-auto w-full flex-none"
+                            className="h-auto w-full"
                             label="Username" 
                             helpText="Basic auth username"
                           >
@@ -177,7 +177,7 @@ function WebhookSignalConfig() {
                             />
                           </TextField>
                           <TextField 
-                            className="h-auto w-full flex-none"
+                            className="h-auto w-full"
                             label="Password" 
                             helpText="Basic auth password"
                           >
@@ -195,7 +195,7 @@ function WebhookSignalConfig() {
                         <div className="flex w-full flex-col items-start gap-4">
                           <div className="flex w-full items-start gap-4">
                             <TextField 
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Client ID" 
                               helpText="OAuth client ID"
                             >
@@ -206,7 +206,7 @@ function WebhookSignalConfig() {
                               />
                             </TextField>
                             <TextField 
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Client Secret" 
                               helpText="OAuth client secret"
                             >
@@ -219,7 +219,7 @@ function WebhookSignalConfig() {
                             </TextField>
                           </div>
                           <TextField 
-                            className="h-auto w-full flex-none"
+                            className="h-auto w-full"
                             label="Token URL" 
                             helpText="OAuth token endpoint"
                           >
@@ -231,7 +231,7 @@ function WebhookSignalConfig() {
                             />
                           </TextField>
                           <TextField 
-                            className="h-auto w-full flex-none"
+                            className="h-auto w-full"
                             label="Scopes" 
                             helpText="OAuth scopes (space-separated)"
                           >
@@ -289,7 +289,7 @@ function WebhookSignalConfig() {
                         {activeTriggerTab === "scheduled" && (
                           <>
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Frequency"
                               placeholder="Select frequency"
                               helpText="How often should the signal trigger"
@@ -301,7 +301,7 @@ function WebhookSignalConfig() {
                               <Select.Item value="monthly">Monthly</Select.Item>
                             </Select>
                             <TextField 
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Repeat Interval" 
                               helpText="Every X days/weeks/months (e.g., every 2 weeks)"
                             >
@@ -314,7 +314,7 @@ function WebhookSignalConfig() {
                               />
                             </TextField>
                             <TextField 
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Start Date & Time" 
                               helpText="When should the signal first trigger"
                             >
@@ -325,7 +325,7 @@ function WebhookSignalConfig() {
                               />
                             </TextField>
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Timezone"
                               placeholder="Select timezone"
                               helpText="Choose your timezone for scheduling"
@@ -347,7 +347,7 @@ function WebhookSignalConfig() {
                         {activeTriggerTab === "one-time" && (
                           <>
                             <TextField 
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Execution Date & Time" 
                               helpText="When should the signal execute (one time only)"
                             >
@@ -358,7 +358,7 @@ function WebhookSignalConfig() {
                               />
                             </TextField>
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Timezone"
                               placeholder="Select timezone"
                               helpText="Choose your timezone for execution"
@@ -388,7 +388,7 @@ function WebhookSignalConfig() {
                         {activeTriggerTab === "agent-triggered" && (
                           <>
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Monitor Metric"
                               placeholder="Select metric to monitor"
                               helpText="Choose which metric the AI should monitor for changes"
@@ -404,7 +404,7 @@ function WebhookSignalConfig() {
                             </Select>
                             
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Condition Type"
                               placeholder="Select condition type"
                               helpText="How should the AI evaluate the metric"
@@ -419,7 +419,7 @@ function WebhookSignalConfig() {
                             
                             <div className="flex w-full items-start gap-4">
                               <Select
-                                className="h-auto w-full flex-none"
+                                className="h-auto w-full"
                                 label="Direction"
                                 placeholder="Select direction"
                                 helpText="Trigger direction"
@@ -432,7 +432,7 @@ function WebhookSignalConfig() {
                               </Select>
                               
                               <TextField 
-                                className="h-auto w-full flex-none"
+                                className="h-auto w-full"
                                 label="Threshold Value" 
                                 helpText="Value or percentage"
                               >
@@ -446,7 +446,7 @@ function WebhookSignalConfig() {
                             </div>
                             
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Time Window"
                               placeholder="Select time window"
                               helpText="Period to evaluate the condition over"
@@ -462,7 +462,7 @@ function WebhookSignalConfig() {
                             </Select>
                             
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Check Frequency"
                               placeholder="Select check frequency"
                               helpText="How often to evaluate the condition"
@@ -476,7 +476,7 @@ function WebhookSignalConfig() {
                             </Select>
                             
                             <TextField 
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Cooldown Period" 
                               helpText="Minimum time between triggers (in minutes) to prevent spam"
                             >
@@ -512,7 +512,7 @@ function WebhookSignalConfig() {
               {isScopeOpen && (
                 <div className="flex w-full flex-col items-start gap-4">
                   <TextArea
-                  className="h-auto w-full flex-none"
+                  className="h-auto w-full"
                   label="Signal Prompt"
                   helpText="Natural-language guidance for AI analysis"
                 >
@@ -569,7 +569,7 @@ function WebhookSignalConfig() {
                   )}
                   
                   <Select
-                    className="h-auto w-full flex-none"
+                    className="h-auto w-full"
                     placeholder="Add metrics..."
                     value=""
                     onValueChange={(value: string) => {
@@ -605,7 +605,7 @@ function WebhookSignalConfig() {
                   </Select>
                 </div>
                 <Select
-                  className="h-auto w-full flex-none"
+                  className="h-auto w-full"
                   label="Global Time Frame"
                   placeholder="Select time range"
                   helpText="Choose analysis period"

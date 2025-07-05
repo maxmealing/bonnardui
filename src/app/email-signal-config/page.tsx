@@ -50,7 +50,7 @@ function EmailSignalConfig() {
           </div>
         </div>
         <div className="flex w-full max-w-[1024px] items-start gap-6">
-          <div className="flex grow shrink-0 basis-0 flex-col items-start gap-6 min-h-0">
+          <div className="flex grow shrink-0 basis-0 flex-col items-start gap-6">
             <div className="flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
               <div className="flex w-full flex-col items-start gap-4">
                 <div className="flex w-full items-center justify-between">
@@ -65,7 +65,7 @@ function EmailSignalConfig() {
                 {isEmailDestinationOpen && (
                   <div className="flex w-full flex-col items-start gap-4">
                   <Select
-                    className="h-auto w-full flex-none"
+                    className="h-auto w-full"
                     label="Destination Type"
                     placeholder="Choose destination"
                     helpText="Select where you want to send your analytics emails"
@@ -123,7 +123,7 @@ function EmailSignalConfig() {
                     )}
                     
                     <Select
-                      className="h-auto w-full flex-none"
+                      className="h-auto w-full"
                       placeholder="Add recipients..."
                       value=""
                       onValueChange={(value: string) => {
@@ -162,7 +162,7 @@ function EmailSignalConfig() {
                   
                   {destinationType === "mailing-list" && (
                     <TextField 
-                      className="h-auto w-full flex-none"
+                      className="h-auto w-full"
                       label="Mailing List Address" 
                       helpText="Email address of the mailing list (e.g., analytics-team@company.com)"
                     >
@@ -177,7 +177,7 @@ function EmailSignalConfig() {
                   
                   {destinationType === "distribution-group" && (
                     <Select
-                      className="h-auto w-full flex-none"
+                      className="h-auto w-full"
                       label="Select Distribution Group"
                       placeholder="Choose a group"
                       helpText="Select the distribution group that will receive signals"
@@ -192,9 +192,9 @@ function EmailSignalConfig() {
                     </Select>
                   )}
                   
-                  <div className="flex w-full items-start gap-4">
+                  <div className="flex w-full flex-col sm:flex-row items-start gap-4">
                     <TextField 
-                      className="h-auto w-full flex-none"
+                      className="h-auto w-full"
                       label="From Name" 
                       helpText="Display name for the sender"
                     >
@@ -207,9 +207,9 @@ function EmailSignalConfig() {
                     </TextField>
                     
                     <TextField 
-                      className="h-auto w-full flex-none"
+                      className="h-auto w-full"
                       label="From Email" 
-                      helpText="Email address for the sender"
+                      helpText="Sender email address"
                     >
                       <TextField.Input
                         type="email"
@@ -264,7 +264,7 @@ function EmailSignalConfig() {
                         {activeTriggerTab === "scheduled" && (
                           <>
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Frequency"
                               placeholder="Select frequency"
                               helpText="How often should the signal trigger"
@@ -276,7 +276,7 @@ function EmailSignalConfig() {
                               <Select.Item value="monthly">Monthly</Select.Item>
                             </Select>
                             <TextField 
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Repeat Interval" 
                               helpText="Every X days/weeks/months (e.g., every 2 weeks)"
                             >
@@ -289,7 +289,7 @@ function EmailSignalConfig() {
                               />
                             </TextField>
                             <TextField 
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Start Date & Time" 
                               helpText="When should the signal first trigger"
                             >
@@ -300,7 +300,7 @@ function EmailSignalConfig() {
                               />
                             </TextField>
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Timezone"
                               placeholder="Select timezone"
                               helpText="Choose your timezone for scheduling"
@@ -322,7 +322,7 @@ function EmailSignalConfig() {
                         {activeTriggerTab === "one-time" && (
                           <>
                             <TextField 
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Execution Date & Time" 
                               helpText="When should the signal execute (one time only)"
                             >
@@ -333,7 +333,7 @@ function EmailSignalConfig() {
                               />
                             </TextField>
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Timezone"
                               placeholder="Select timezone"
                               helpText="Choose your timezone for execution"
@@ -363,7 +363,7 @@ function EmailSignalConfig() {
                         {activeTriggerTab === "agent-triggered" && (
                           <>
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Monitor Metric"
                               placeholder="Select metric to monitor"
                               helpText="Choose which metric the AI should monitor for changes"
@@ -379,7 +379,7 @@ function EmailSignalConfig() {
                             </Select>
                             
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Condition Type"
                               placeholder="Select condition type"
                               helpText="How should the AI evaluate the metric"
@@ -394,7 +394,7 @@ function EmailSignalConfig() {
                             
                             <div className="flex w-full items-start gap-4">
                               <Select
-                                className="h-auto w-full flex-none"
+                                className="h-auto w-full"
                                 label="Direction"
                                 placeholder="Select direction"
                                 helpText="Trigger direction"
@@ -407,7 +407,7 @@ function EmailSignalConfig() {
                               </Select>
                               
                               <TextField 
-                                className="h-auto w-full flex-none"
+                                className="h-auto w-full"
                                 label="Threshold Value" 
                                 helpText="Value or percentage"
                               >
@@ -421,7 +421,7 @@ function EmailSignalConfig() {
                             </div>
                             
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Time Window"
                               placeholder="Select time window"
                               helpText="Period to evaluate the condition over"
@@ -437,7 +437,7 @@ function EmailSignalConfig() {
                             </Select>
                             
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Check Frequency"
                               placeholder="Select check frequency"
                               helpText="How often to evaluate the condition"
@@ -451,7 +451,7 @@ function EmailSignalConfig() {
                             </Select>
                             
                             <TextField 
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Cooldown Period" 
                               helpText="Minimum time between triggers (in minutes) to prevent spam"
                             >
@@ -487,7 +487,7 @@ function EmailSignalConfig() {
               {isScopeOpen && (
                 <div className="flex w-full flex-col items-start gap-4">
                   <TextArea
-                  className="h-auto w-full flex-none"
+                  className="h-auto w-full"
                   label="Signal Prompt"
                   helpText="Natural-language guidance for AI analysis"
                 >
@@ -544,7 +544,7 @@ function EmailSignalConfig() {
                   )}
                   
                   <Select
-                    className="h-auto w-full flex-none"
+                    className="h-auto w-full"
                     placeholder="Add metrics..."
                     value=""
                     onValueChange={(value: string) => {
@@ -580,7 +580,7 @@ function EmailSignalConfig() {
                   </Select>
                 </div>
                 <Select
-                  className="h-auto w-full flex-none"
+                  className="h-auto w-full"
                   label="Global Time Frame"
                   placeholder="Select time range"
                   helpText="Choose analysis period"

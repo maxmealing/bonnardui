@@ -49,7 +49,7 @@ function SlackSignalConfig() {
           </div>
         </div>
         <div className="flex w-full max-w-[1024px] items-start gap-6">
-          <div className="flex grow shrink-0 basis-0 flex-col items-start gap-6 min-h-0">
+          <div className="flex grow shrink-0 basis-0 flex-col items-start gap-6">
             <div className="flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
               <div className="flex w-full flex-col items-start gap-4">
                 <div className="flex w-full items-center justify-between">
@@ -64,7 +64,7 @@ function SlackSignalConfig() {
                 {isSlackDestinationOpen && (
                   <div className="flex w-full flex-col items-start gap-4">
                   <Select
-                    className="h-auto w-full flex-none"
+                    className="h-auto w-full"
                     label="Destination Type"
                     placeholder="Choose destination"
                     helpText="Select where you want to send your analytics insights"
@@ -77,7 +77,7 @@ function SlackSignalConfig() {
                   
                   {destinationType === "channel" && (
                     <Select
-                      className="h-auto w-full flex-none"
+                      className="h-auto w-full"
                       label="Select Channel"
                       placeholder="Choose a channel"
                       helpText="Select the channel where signals will be posted"
@@ -138,7 +138,7 @@ function SlackSignalConfig() {
                       )}
                       
                       <Select
-                        className="h-auto w-full flex-none"
+                        className="h-auto w-full"
                         placeholder="Add recipients..."
                         value=""
                         onValueChange={(value: string) => {
@@ -217,7 +217,7 @@ function SlackSignalConfig() {
                         {activeTriggerTab === "scheduled" && (
                           <>
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Frequency"
                               placeholder="Select frequency"
                               helpText="How often should the signal trigger"
@@ -229,7 +229,7 @@ function SlackSignalConfig() {
                               <Select.Item value="monthly">Monthly</Select.Item>
                             </Select>
                             <TextField 
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Repeat Interval" 
                               helpText="Every X days/weeks/months (e.g., every 2 weeks)"
                             >
@@ -242,7 +242,7 @@ function SlackSignalConfig() {
                               />
                             </TextField>
                             <TextField 
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Start Date & Time" 
                               helpText="When should the signal first trigger"
                             >
@@ -253,7 +253,7 @@ function SlackSignalConfig() {
                               />
                             </TextField>
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Timezone"
                               placeholder="Select timezone"
                               helpText="Choose your timezone for scheduling"
@@ -275,7 +275,7 @@ function SlackSignalConfig() {
                         {activeTriggerTab === "one-time" && (
                           <>
                             <TextField 
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Execution Date & Time" 
                               helpText="When should the signal execute (one time only)"
                             >
@@ -286,7 +286,7 @@ function SlackSignalConfig() {
                               />
                             </TextField>
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Timezone"
                               placeholder="Select timezone"
                               helpText="Choose your timezone for execution"
@@ -316,7 +316,7 @@ function SlackSignalConfig() {
                         {activeTriggerTab === "agent-triggered" && (
                           <>
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Monitor Metric"
                               placeholder="Select metric to monitor"
                               helpText="Choose which metric the AI should monitor for changes"
@@ -332,7 +332,7 @@ function SlackSignalConfig() {
                             </Select>
                             
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Condition Type"
                               placeholder="Select condition type"
                               helpText="How should the AI evaluate the metric"
@@ -347,7 +347,7 @@ function SlackSignalConfig() {
                             
                             <div className="flex w-full items-start gap-4">
                               <Select
-                                className="h-auto w-full flex-none"
+                                className="h-auto w-full"
                                 label="Direction"
                                 placeholder="Select direction"
                                 helpText="Trigger direction"
@@ -360,7 +360,7 @@ function SlackSignalConfig() {
                               </Select>
                               
                               <TextField 
-                                className="h-auto w-full flex-none"
+                                className="h-auto w-full"
                                 label="Threshold Value" 
                                 helpText="Value or percentage"
                               >
@@ -374,7 +374,7 @@ function SlackSignalConfig() {
                             </div>
                             
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Time Window"
                               placeholder="Select time window"
                               helpText="Period to evaluate the condition over"
@@ -390,7 +390,7 @@ function SlackSignalConfig() {
                             </Select>
                             
                             <Select
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Check Frequency"
                               placeholder="Select check frequency"
                               helpText="How often to evaluate the condition"
@@ -404,7 +404,7 @@ function SlackSignalConfig() {
                             </Select>
                             
                             <TextField 
-                              className="h-auto w-full flex-none"
+                              className="h-auto w-full"
                               label="Cooldown Period" 
                               helpText="Minimum time between triggers (in minutes) to prevent spam"
                             >
@@ -438,7 +438,7 @@ function SlackSignalConfig() {
               {isScopeOpen && (
                 <div className="flex w-full flex-col items-start gap-4">
                   <TextArea
-                  className="h-auto w-full flex-none"
+                  className="h-auto w-full"
                   label="Signal Prompt"
                   helpText="Natural-language guidance for AI analysis"
                 >
@@ -495,7 +495,7 @@ function SlackSignalConfig() {
                   )}
                   
                   <Select
-                    className="h-auto w-full flex-none"
+                    className="h-auto w-full"
                     placeholder="Add metrics..."
                     value=""
                     onValueChange={(value: string) => {
@@ -531,7 +531,7 @@ function SlackSignalConfig() {
                   </Select>
                 </div>
                 <Select
-                  className="h-auto w-full flex-none"
+                  className="h-auto w-full"
                   label="Global Time Frame"
                   placeholder="Select time range"
                   helpText="Choose analysis period"
