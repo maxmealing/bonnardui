@@ -8,13 +8,15 @@ interface AutoSaveIndicatorProps {
   lastSaved: Date | null;
   error: string | null;
   className?: string;
+  onManualSave?: () => void;
 }
 
 export function AutoSaveIndicator({ 
   isSaving, 
   lastSaved, 
   error, 
-  className = "" 
+  className = "",
+  onManualSave
 }: AutoSaveIndicatorProps) {
   const formatLastSaved = (date: Date | null) => {
     if (!date) return null;
@@ -55,22 +57,30 @@ export function AutoSaveIndicator({
 
   if (lastSaved) {
     return (
-      <div className={`flex items-center gap-2 ${className}`}>
+      <button 
+        onClick={onManualSave}
+        disabled={!onManualSave}
+        className={`flex items-center gap-2 ${onManualSave ? 'cursor-pointer hover:text-neutral-700 transition-colors' : ''} ${className}`}
+      >
         <FeatherCheck className="w-4 h-4 text-neutral-400" />
         <span className="text-caption font-caption text-neutral-500">
           Saved {formatLastSaved(lastSaved)}
         </span>
-      </div>
+      </button>
     );
   }
 
   // Default state - always show auto-save is enabled
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
+    <button 
+      onClick={onManualSave}
+      disabled={!onManualSave}
+      className={`flex items-center gap-2 ${onManualSave ? 'cursor-pointer hover:text-neutral-700 transition-colors' : ''} ${className}`}
+    >
       <FeatherSave className="w-4 h-4 text-neutral-400" />
       <span className="text-caption font-caption text-neutral-500">
         Auto-save on
       </span>
-    </div>
+    </button>
   );
 }

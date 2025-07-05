@@ -28,7 +28,7 @@ function EmailSignalConfig() {
     selectedMetrics
   };
 
-  const { isSaving, lastSaved, error } = useAutoSave({
+  const { isSaving, lastSaved, error, manualSave } = useAutoSave({
     data: configData,
     onSave: async (data) => {
       // Simulate API call to save email signal configuration
@@ -43,13 +43,12 @@ function EmailSignalConfig() {
       channelType="email"
       signalName={signalName}
       onSignalNameChange={setSignalName}
-      autoSave={{ isSaving, lastSaved, error }}
+      autoSave={{ isSaving, lastSaved, error, onManualSave: manualSave }}
     >
       {/* Receiver Section */}
-      <div className="flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
-        <div className="flex w-full flex-col items-start gap-4">
+      <div className="flex w-full flex-col items-start rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
           <div 
-            className={`flex w-full items-center justify-between pt-2 py-2 transition-colors ${!isEmailDestinationOpen ? 'cursor-pointer hover:bg-neutral-25' : ''}`}
+            className={`flex w-full items-start justify-between transition-colors ${!isEmailDestinationOpen ? 'cursor-pointer hover:bg-neutral-25' : ''}`}
             onClick={!isEmailDestinationOpen ? () => setIsEmailDestinationOpen(true) : undefined}
           >
             <div className="flex flex-col gap-2">
@@ -69,7 +68,7 @@ function EmailSignalConfig() {
             />
           </div>
           {isEmailDestinationOpen && (
-            <div className="flex w-full flex-col items-start gap-3">
+            <div className="flex w-full flex-col items-start gap-4 pt-1">
               <TooltipField
                 label="Destination Type"
                 tooltip="Select where you want to send your analytics emails"
@@ -243,7 +242,6 @@ function EmailSignalConfig() {
             </div>
           )}
         </div>
-      </div>
 
       {/* Trigger Section - Using extracted component */}
       <TriggerSection

@@ -575,7 +575,7 @@ export default function DefineEmailContent() {
 
   // Auto-save functionality
   const contentData = { subject, blocks };
-  const { isSaving, lastSaved, error } = useAutoSave({
+  const { isSaving, lastSaved, error, manualSave } = useAutoSave({
     data: contentData,
     onSave: async (data) => {
       // Simulate API call to save email content
@@ -671,6 +671,7 @@ export default function DefineEmailContent() {
               isSaving={isSaving}
               lastSaved={lastSaved}
               error={error}
+              onManualSave={manualSave}
             />
           </div>
         </div>

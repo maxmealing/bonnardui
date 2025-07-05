@@ -481,7 +481,7 @@ export default function DefineContent() {
   const [activeBlockId, setActiveBlockId] = useState<string | null>(null);
 
   // Auto-save functionality
-  const { isSaving, lastSaved, error } = useAutoSave({
+  const { isSaving, lastSaved, error, manualSave } = useAutoSave({
     data: blocks,
     onSave: async (data) => {
       // Simulate API call to save content
@@ -577,6 +577,7 @@ export default function DefineContent() {
               isSaving={isSaving}
               lastSaved={lastSaved}
               error={error}
+              onManualSave={manualSave}
             />
           </div>
         </div>

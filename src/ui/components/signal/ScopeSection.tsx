@@ -45,9 +45,9 @@ export function ScopeSection({
   };
 
   return (
-    <div className="flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
+    <div className="flex w-full flex-col items-start rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
       <div 
-        className={`flex w-full items-center justify-between pt-2 py-2 transition-colors ${!isScopeOpen ? 'cursor-pointer hover:bg-neutral-25' : ''}`}
+        className={`flex w-full items-start justify-between transition-colors ${!isScopeOpen ? 'cursor-pointer hover:bg-neutral-25' : ''}`}
         onClick={!isScopeOpen ? () => setIsScopeOpen(true) : undefined}
       >
         <div className="flex flex-col gap-2">
@@ -67,7 +67,7 @@ export function ScopeSection({
         />
       </div>
       {isScopeOpen && (
-        <div className="flex w-full flex-col items-start gap-3">
+        <div className="flex w-full flex-col items-start pt-1">
           <TooltipField
             label="Signal Prompt"
             tooltip="Natural-language guidance for AI analysis of the selected metrics"

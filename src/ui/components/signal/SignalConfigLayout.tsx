@@ -24,6 +24,7 @@ interface SignalConfigLayoutProps {
     isSaving: boolean;
     lastSaved: Date | null;
     error: string | null;
+    onManualSave?: () => void;
   };
   onLaunchClick?: () => void;
 }
@@ -85,6 +86,7 @@ export function SignalConfigLayout({
                 isSaving={autoSave.isSaving}
                 lastSaved={autoSave.lastSaved}
                 error={autoSave.error}
+                onManualSave={autoSave.onManualSave}
               />
             )}
             <div className="flex items-center gap-2">

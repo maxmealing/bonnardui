@@ -188,7 +188,7 @@ export function EditableTitle({
       </h1>
       <button
         onClick={() => setIsEditing(true)}
-        className="text-brand-600 hover:text-brand-700 text-body font-body text-left transition-colors"
+        className="text-brand-600 hover:text-brand-700 text-body font-body text-left transition-colors cursor-pointer"
       >
         Edit name
       </button>

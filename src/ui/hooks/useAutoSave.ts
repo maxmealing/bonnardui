@@ -11,6 +11,7 @@ interface UseAutoSaveReturn {
   isSaving: boolean;
   lastSaved: Date | null;
   error: string | null;
+  manualSave: () => Promise<void>;
 }
 
 export function useAutoSave({
@@ -82,9 +83,25 @@ export function useAutoSave({
     };
   }, []);
 
+  const manualSave = async () => {
+    try {
+      setIsSaving(true);
+      setError(null);
+      await onSave(data);
+      setLastSaved(new Date());
+      // Update the reference to prevent triggering auto-save
+      lastDataRef.current = JSON.stringify(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return {
     isSaving,
     lastSaved,
-    error
+    error,
+    manualSave
   };
 }

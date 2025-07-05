@@ -4,7 +4,7 @@ import React from "react";
 import { IconButton } from "@/ui/components/IconButton";
 import { FeatherChevronUp, FeatherChevronDown } from "@subframe/core";
 import { Select } from "@/ui/components/Select";
-import { Tabs } from "@/ui/components/Tabs";
+import { RadioCardGroup } from "@/ui/components/RadioCardGroup";
 import { TextField } from "@/ui/components/TextField";
 import { TooltipField } from "@/ui/components/signal/TooltipField";
 
@@ -46,9 +46,9 @@ export function TriggerSection({
   getFieldError
 }: TriggerSectionProps) {
   return (
-    <div className="flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
+    <div className="flex w-full flex-col items-start rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
       <div 
-        className={`flex w-full items-center justify-between pt-2 py-2 transition-colors ${!isTriggerOpen ? 'cursor-pointer hover:bg-neutral-25' : ''}`}
+        className={`flex w-full items-start justify-between transition-colors ${!isTriggerOpen ? 'cursor-pointer hover:bg-neutral-25' : ''}`}
         onClick={!isTriggerOpen ? () => setIsTriggerOpen(true) : undefined}
       >
         <div className="flex flex-col gap-2">
@@ -68,44 +68,62 @@ export function TriggerSection({
         />
       </div>
       {isTriggerOpen && (
-        <div className="flex w-full flex-col items-start gap-4">
-          <Tabs>
-            <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4">
-              {/* Tab Navigation */}
-              <div className="w-full items-start gap-2 grid grid-cols-3">
-                <Tabs.Item 
-                  active={activeTriggerTab === "scheduled"}
-                  onClick={() => setActiveTriggerTab("scheduled")}
-                >
-                  Scheduled
-                </Tabs.Item>
-                <Tabs.Item 
-                  active={activeTriggerTab === "one-time"}
-                  onClick={() => setActiveTriggerTab("one-time")}
-                >
-                  One-time
-                </Tabs.Item>
-                <Tabs.Item 
-                  active={activeTriggerTab === "agent-triggered"}
-                  onClick={() => setActiveTriggerTab("agent-triggered")}
-                >
-                  Agent Triggered
-                </Tabs.Item>
-              </div>
+        <div className="flex w-full flex-col items-start gap-6 pt-4">
+          {/* Trigger Type Selection */}
+          <div className="w-full">
+            <RadioCardGroup 
+              value={activeTriggerTab}
+              onValueChange={(value) => setActiveTriggerTab(value as TriggerType)}
+              className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full"
+            >
+              <RadioCardGroup.RadioCard 
+                value="scheduled"
+                className="flex items-center gap-3 p-3"
+              >
+                <div className="flex-1">
+                  <div className="text-body-bold font-body-bold text-default-font">
+                    Scheduled
+                  </div>
+                  <div className="text-caption font-caption text-subtext-color">
+                    Regular intervals
+                  </div>
+                </div>
+              </RadioCardGroup.RadioCard>
               
-              {/* Tab Content Container - Fixed Height and Width for Smooth Transitions */}
-              <div className="w-full relative overflow-hidden">
-                <div 
-                  className="w-full transition-all duration-300 ease-in-out"
-                  style={{ minHeight: '400px', width: '100%' }}
-                >
-                  {/* Scheduled Tab Content */}
-                  <div 
-                    className={`transition-opacity duration-200 ease-in-out ${
-                      activeTriggerTab === "scheduled" ? 'opacity-100 relative' : 'opacity-0 absolute inset-0 pointer-events-none'
-                    }`}
-                    style={{ width: '100%' }}
-                  >
+              <RadioCardGroup.RadioCard 
+                value="one-time"
+                className="flex items-center gap-3 p-3"
+              >
+                <div className="flex-1">
+                  <div className="text-body-bold font-body-bold text-default-font">
+                    One-time
+                  </div>
+                  <div className="text-caption font-caption text-subtext-color">
+                    Single execution
+                  </div>
+                </div>
+              </RadioCardGroup.RadioCard>
+              
+              <RadioCardGroup.RadioCard 
+                value="agent-triggered"
+                className="flex items-center gap-3 p-3"
+              >
+                <div className="flex-1">
+                  <div className="text-body-bold font-body-bold text-default-font">
+                    Agent Triggered
+                  </div>
+                  <div className="text-caption font-caption text-subtext-color">
+                    Data-driven
+                  </div>
+                </div>
+              </RadioCardGroup.RadioCard>
+            </RadioCardGroup>
+          </div>
+          
+          {/* Configuration Content */}
+          <div className="w-full">
+            {/* Scheduled Content */}
+            {activeTriggerTab === "scheduled" && (
                     <div className="w-full">
                       <div className="flex flex-col gap-6">
                         {/* Timing Configuration */}
@@ -212,15 +230,10 @@ export function TriggerSection({
                         </div>
                       </div>
                     </div>
-                  </div>
+            )}
 
-                  {/* One-time Tab Content */}
-                  <div 
-                    className={`transition-opacity duration-200 ease-in-out ${
-                      activeTriggerTab === "one-time" ? 'opacity-100 relative' : 'opacity-0 absolute inset-0 pointer-events-none'
-                    }`}
-                    style={{ width: '100%' }}
-                  >
+            {/* One-time Content */}
+            {activeTriggerTab === "one-time" && (
                     <div className="w-full">
                       <div className="flex flex-col gap-6">
                         {/* Execution Settings */}
@@ -287,15 +300,10 @@ export function TriggerSection({
                         </div>
                       </div>
                     </div>
-                  </div>
+            )}
 
-                  {/* Agent Triggered Tab Content */}
-                  <div 
-                    className={`transition-opacity duration-200 ease-in-out ${
-                      activeTriggerTab === "agent-triggered" ? 'opacity-100 relative' : 'opacity-0 absolute inset-0 pointer-events-none'
-                    }`}
-                    style={{ width: '100%' }}
-                  >
+            {/* Agent Triggered Content */}
+            {activeTriggerTab === "agent-triggered" && (
                     <div className="w-full">
                       <div className="flex flex-col gap-6">
                         {/* Monitoring Configuration */}
@@ -471,11 +479,8 @@ export function TriggerSection({
                         </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </Tabs>
+            )}
+          </div>
         </div>
       )}
     </div>
