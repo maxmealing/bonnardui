@@ -44,6 +44,7 @@ function SlackSignalConfig() {
   return (
     <SignalConfigLayout 
       channelType="slack"
+      signalName="Weekly User Engagement Report"
       validationState={validationState}
       autoSave={{ isSaving, lastSaved, error }}
       onLaunchClick={handleLaunchClick}

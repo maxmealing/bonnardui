@@ -39,7 +39,8 @@ function WebhookSignalConfig() {
   
   return (
     <SignalConfigLayout 
-      channelType="webhook" 
+      channelType="webhook"
+      signalName="Real-time Analytics Webhook" 
       autoSave={{ isSaving, lastSaved, error }}
     >
       {/* Receiver Section */}

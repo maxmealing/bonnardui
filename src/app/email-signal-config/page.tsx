@@ -39,7 +39,8 @@ function EmailSignalConfig() {
   
   return (
     <SignalConfigLayout 
-      channelType="email" 
+      channelType="email"
+      signalName="Monthly Performance Dashboard" 
       autoSave={{ isSaving, lastSaved, error }}
     >
       {/* Receiver Section */}

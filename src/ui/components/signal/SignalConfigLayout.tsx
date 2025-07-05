@@ -11,6 +11,7 @@ import * as SubframeCore from "@subframe/core";
 
 interface SignalConfigLayoutProps {
   channelType: "slack" | "email" | "webhook";
+  signalName?: string;
   children: React.ReactNode;
   previewContent?: React.ReactNode;
   validationState?: {
@@ -30,6 +31,7 @@ interface SignalConfigLayoutProps {
 
 export function SignalConfigLayout({ 
   channelType, 
+  signalName,
   children, 
   previewContent,
   validationState,
@@ -76,7 +78,7 @@ export function SignalConfigLayout({
             />
             <div className="flex items-center gap-3">
               <span className="text-heading-2 font-heading-2 text-default-font">
-                Configure {getChannelDisplayName()} Signal
+                {signalName || `Configure ${getChannelDisplayName()} Signal`}
               </span>
               <SubframeCore.DropdownMenu.Root>
                 <SubframeCore.DropdownMenu.Trigger asChild={true}>
