@@ -4,12 +4,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { DefaultPageLayout } from "@/ui/layouts/DefaultPageLayout";
 import { Button } from "@/ui/components/Button";
 import { IconButton } from "@/ui/components/IconButton";
+import { useAutoSave, AutoSaveIndicator } from "@/ui";
 import { 
   FeatherType, 
   FeatherHash, 
   FeatherCpu, 
   FeatherX, 
-  FeatherSave, 
   FeatherArrowLeft,
   FeatherEye,
   FeatherUser, 
@@ -467,7 +467,6 @@ function BlockComponent({ block, blocks, onUpdate, onDelete, onAddBlock, onShowS
 }
 
 export default function DefineContent() {
-  const [title, setTitle] = useState('');
   const [blocks, setBlocks] = useState<Block[]>([
     {
       id: '1',
@@ -480,7 +479,17 @@ export default function DefineContent() {
   const [showVariableMenu, setShowVariableMenu] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
   const [activeBlockId, setActiveBlockId] = useState<string | null>(null);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+
+  // Auto-save functionality
+  const { isSaving, lastSaved, error } = useAutoSave({
+    data: blocks,
+    onSave: async (data) => {
+      // Simulate API call to save content
+      await new Promise(resolve => setTimeout(resolve, 500));
+      console.log('Saving content blocks:', data);
+    },
+    delay: 2000 // Save 2 seconds after last change
+  });
 
   const addBlock = (afterId: string, type: BlockType) => {
     const newBlock: Block = {
@@ -563,19 +572,17 @@ export default function DefineContent() {
               Define Content
             </span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
+            <AutoSaveIndicator 
+              isSaving={isSaving}
+              lastSaved={lastSaved}
+              error={error}
+            />
             <Button
               variant="neutral-secondary"
               onClick={() => {}}
             >
               Preview
-            </Button>
-            <Button
-              icon={<FeatherSave />}
-              onClick={() => setHasUnsavedChanges(false)}
-              variant={hasUnsavedChanges ? "brand-primary" : "neutral-secondary"}
-            >
-              {hasUnsavedChanges ? "Save Changes" : "Saved"}
             </Button>
           </div>
         </div>
@@ -583,22 +590,6 @@ export default function DefineContent() {
         <div className="flex w-full max-w-[1024px] items-start gap-6">
           <div className="flex grow shrink-0 basis-0 flex-col gap-6 min-h-0">
             <div className="flex w-full flex-col gap-6 rounded-lg border border-solid border-neutral-border bg-default-background p-6">
-              {/* Title Section */}
-              <div className="border-b border-neutral-100 pb-6">
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => {
-                    setTitle(e.target.value);
-                    setHasUnsavedChanges(true);
-                  }}
-                  placeholder="Enter title..."
-                  className="w-full text-heading-1 font-heading-1 text-default-font border-none outline-none bg-transparent placeholder:text-neutral-400"
-                  aria-label="Signal title"
-                  role="textbox"
-                />
-              </div>
-
               {/* Content Blocks */}
               <div className="flex flex-col gap-1">
                 {blocks.map((block) => (
@@ -606,10 +597,7 @@ export default function DefineContent() {
                     key={block.id}
                     block={block}
                     blocks={blocks}
-                    onUpdate={(id, updates) => {
-                      updateBlock(id, updates);
-                      setHasUnsavedChanges(true);
-                    }}
+                    onUpdate={updateBlock}
                     onDelete={deleteBlock}
                     onAddBlock={addBlock}
                     onShowSlashMenu={handleSlashCommand}
@@ -679,11 +667,6 @@ export default function DefineContent() {
                 
                 {/* Message content */}
                 <div className="flex flex-col gap-2">
-                  {title && (
-                    <div className="text-heading-3 font-heading-3 text-default-font mb-2">
-                      {title}
-                    </div>
-                  )}
                   {blocks.map((block) => (
                     <div key={block.id}>
                       {block.type === 'heading' && block.content && (

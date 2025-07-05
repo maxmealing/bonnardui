@@ -4,12 +4,12 @@ import React, { useState, useRef, useEffect } from "react";
 import { DefaultPageLayout } from "@/ui/layouts/DefaultPageLayout";
 import { Button } from "@/ui/components/Button";
 import { IconButton } from "@/ui/components/IconButton";
+import { useAutoSave, AutoSaveIndicator } from "@/ui";
 import { 
   FeatherType, 
   FeatherHash, 
   FeatherCpu, 
   FeatherX, 
-  FeatherSave, 
   FeatherArrowLeft,
   FeatherEye,
   FeatherUser, 
@@ -559,7 +559,6 @@ function BlockComponent({ block, blocks, onUpdate, onDelete, onAddBlock, onShowS
 }
 
 export default function DefineEmailContent() {
-  const [title, setTitle] = useState('');
   const [subject, setSubject] = useState('');
   const [blocks, setBlocks] = useState<Block[]>([
     {
@@ -573,7 +572,18 @@ export default function DefineEmailContent() {
   const [showVariableMenu, setShowVariableMenu] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
   const [activeBlockId, setActiveBlockId] = useState<string | null>(null);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
+
+  // Auto-save functionality
+  const contentData = { subject, blocks };
+  const { isSaving, lastSaved, error } = useAutoSave({
+    data: contentData,
+    onSave: async (data) => {
+      // Simulate API call to save email content
+      await new Promise(resolve => setTimeout(resolve, 500));
+      console.log('Saving email content:', data);
+    },
+    delay: 2000 // Save 2 seconds after last change
+  });
 
   const addBlock = (afterId: string, type: BlockType) => {
     const newBlock: Block = {
@@ -656,19 +666,17 @@ export default function DefineEmailContent() {
               Define Email Content
             </span>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
+            <AutoSaveIndicator 
+              isSaving={isSaving}
+              lastSaved={lastSaved}
+              error={error}
+            />
             <Button
               variant="neutral-secondary"
               onClick={() => {}}
             >
               Preview
-            </Button>
-            <Button
-              icon={<FeatherSave />}
-              onClick={() => setHasUnsavedChanges(false)}
-              variant={hasUnsavedChanges ? "brand-primary" : "neutral-secondary"}
-            >
-              {hasUnsavedChanges ? "Save Changes" : "Saved"}
             </Button>
           </div>
         </div>
@@ -676,22 +684,6 @@ export default function DefineEmailContent() {
         <div className="flex w-full max-w-[1024px] items-start gap-6">
           <div className="flex grow shrink-0 basis-0 flex-col gap-6 min-h-0">
             <div className="flex w-full flex-col gap-6 rounded-lg border border-solid border-neutral-border bg-default-background p-6">
-              {/* Title Section */}
-              <div className="border-b border-neutral-100 pb-6">
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => {
-                    setTitle(e.target.value);
-                    setHasUnsavedChanges(true);
-                  }}
-                  placeholder="Enter email title..."
-                  className="w-full text-heading-1 font-heading-1 text-default-font border-none outline-none bg-transparent placeholder:text-neutral-400"
-                  aria-label="Email title"
-                  role="textbox"
-                />
-              </div>
-
               {/* Subject Line Section */}
               <div className="border-b border-neutral-100 pb-6">
                 <div className="flex items-center gap-2 mb-3">
@@ -703,10 +695,7 @@ export default function DefineEmailContent() {
                 <input
                   type="text"
                   value={subject}
-                  onChange={(e) => {
-                    setSubject(e.target.value);
-                    setHasUnsavedChanges(true);
-                  }}
+                  onChange={(e) => setSubject(e.target.value)}
                   placeholder="Analytics Report - {{metric_name}} Update"
                   className="w-full text-body font-body text-default-font border border-solid border-neutral-200 rounded-md px-3 py-2 outline-none focus:border-brand-500 placeholder:text-neutral-400"
                   aria-label="Email subject line"
@@ -724,10 +713,7 @@ export default function DefineEmailContent() {
                     key={block.id}
                     block={block}
                     blocks={blocks}
-                    onUpdate={(id, updates) => {
-                      updateBlock(id, updates);
-                      setHasUnsavedChanges(true);
-                    }}
+                    onUpdate={updateBlock}
                     onDelete={deleteBlock}
                     onAddBlock={addBlock}
                     onShowSlashMenu={handleSlashCommand}
@@ -816,11 +802,6 @@ export default function DefineEmailContent() {
                 
                 {/* Email content */}
                 <div className="flex flex-col gap-3">
-                  {title && (
-                    <div className="text-heading-3 font-heading-3 text-default-font mb-2">
-                      {title}
-                    </div>
-                  )}
                   {blocks.map((block) => (
                     <div key={block.id}>
                       {block.type === 'heading' && block.content && (

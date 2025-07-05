@@ -85,6 +85,64 @@ Components follow a consistent design system with:
 - Responsive design with mobile-first approach
 - Dark mode support where applicable
 
+## Design Guidelines
+
+### Typography Principles
+**Line Heights:**
+- Titles: 1.1-1.3x line height for tight, impactful headings
+- Body text: 1.3-1.5x line height for optimal readability
+- Vertical spacing between text blocks should reflect their relationship
+
+**Text Layout:**
+- Baseline-align text elements on the same line
+- Use more horizontal padding than vertical padding in text containers
+- Limit line length to ~20 words for optimal readability
+- Left-align text by default, especially for longer content
+- Avoid center-aligning multi-line text
+
+**Font Weight Strategy:**
+- Use font weights strategically for contrast - "when everything is bold, nothing is bold"
+- Regular (400) weight works best for main content
+- Reserve bold weights for emphasis and hierarchy
+
+### Component Design Patterns
+**Layout Principles:**
+- Flexible row-based layouts with clear content separation
+- Minimal, consistent padding (0.5rem) for clean, breathable design
+- Section titles should have more top padding than bottom padding
+- Use spacing to create visual relationships between elements
+
+**Interactive Elements:**
+- Focus on micro-interactions and smooth animations
+- Subtle color transitions on hover states
+- Every UI detail contributes to overall product quality
+- Create polished, intentional interactions that enhance user experience
+
+**Visual Hierarchy:**
+- Experiment with larger text sizes for marketing/focus areas
+- Use CSS variables for consistent color management
+- Implement secondary colors for supplementary information
+- Consistent icon sizing (1.125rem) with proper vertical alignment
+
+### Subframe Integration Best Practices
+**Component Usage:**
+- Leverage Subframe's component library for consistency
+- Follow Subframe conventions for variants, sizes, and states
+- Use Feather icons from Subframe for scalability
+- Maintain component-driven development approach
+
+**Responsive Design:**
+- Mobile-first breakpoint at 450px
+- Flexible display methods (flex/block) for different screen sizes
+- Adjust margins and spacing appropriately for smaller screens
+- Use media queries for responsive layout adjustments
+
+**Development Approach:**
+- Create reusable component libraries for faster development
+- Prioritize "delightful user experiences" over basic functionality
+- Emphasize clarity and functional elegance in all UI decisions
+- Use design to enhance content readability and usability
+
 ## Testing and Quality
 
 ### Code Quality

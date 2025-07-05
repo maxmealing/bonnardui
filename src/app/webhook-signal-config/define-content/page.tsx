@@ -360,7 +360,6 @@ function FieldComponent({ field, onUpdate, onDelete, onShowVariableMenu }: Field
 }
 
 export default function DefineWebhookContent() {
-  const [title, setTitle] = useState('');
   const [fields, setFields] = useState<Field[]>([
     {
       id: '1',
@@ -484,22 +483,6 @@ export default function DefineWebhookContent() {
         <div className="flex w-full max-w-[1024px] items-start gap-6">
           <div className="flex grow shrink-0 basis-0 flex-col gap-6 min-h-0">
             <div className="flex w-full flex-col gap-6 rounded-lg border border-solid border-neutral-border bg-default-background p-6">
-              {/* Title Section */}
-              <div className="border-b border-neutral-100 pb-6">
-                <input
-                  type="text"
-                  value={title}
-                  onChange={(e) => {
-                    setTitle(e.target.value);
-                    setHasUnsavedChanges(true);
-                  }}
-                  placeholder="Enter webhook configuration name..."
-                  className="w-full text-heading-1 font-heading-1 text-default-font border-none outline-none bg-transparent placeholder:text-neutral-400"
-                  aria-label="Webhook configuration title"
-                  role="textbox"
-                />
-              </div>
-
               {/* Fields Section */}
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">

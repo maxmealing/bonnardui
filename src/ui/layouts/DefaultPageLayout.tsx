@@ -87,7 +87,10 @@ const DefaultPageLayoutRoot = React.forwardRef<
           </>
         }
       >
-        <SidebarRailWithLabels.NavItem icon={<FeatherSignal />}>
+        <SidebarRailWithLabels.NavItem 
+          icon={<FeatherSignal />}
+          onClick={() => window.location.href = '/signals'}
+        >
           Signals
         </SidebarRailWithLabels.NavItem>
         <SidebarRailWithLabels.NavItem icon={<FeatherDatabase />}>
