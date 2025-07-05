@@ -9,15 +9,16 @@ import { FeatherX } from "@subframe/core";
 import { TriggerSection, ScopeSection, ContentSection, SignalConfigLayout, TriggerType, TooltipField, useAutoSave } from "@/ui";
 
 function EmailSignalConfig() {
+  const [signalName, setSignalName] = useState("Monthly Performance Dashboard");
   const [activeTriggerTab, setActiveTriggerTab] = useState<TriggerType>("scheduled");
   const [destinationType, setDestinationType] = useState<string>("individual");
   const [selectedRecipients, setSelectedRecipients] = useState<string[]>([]);
   const [selectedMetrics, setSelectedMetrics] = useState<string[]>([]);
   
   // Accordion state
-  const [isEmailDestinationOpen, setIsEmailDestinationOpen] = useState(true);
-  const [isTriggerOpen, setIsTriggerOpen] = useState(true);
-  const [isScopeOpen, setIsScopeOpen] = useState(true);
+  const [isEmailDestinationOpen, setIsEmailDestinationOpen] = useState(false);
+  const [isTriggerOpen, setIsTriggerOpen] = useState(false);
+  const [isScopeOpen, setIsScopeOpen] = useState(false);
 
   // Auto-save functionality
   const configData = {
@@ -40,23 +41,35 @@ function EmailSignalConfig() {
   return (
     <SignalConfigLayout 
       channelType="email"
-      signalName="Monthly Performance Dashboard" 
+      signalName={signalName}
+      onSignalNameChange={setSignalName}
       autoSave={{ isSaving, lastSaved, error }}
     >
       {/* Receiver Section */}
       <div className="flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
         <div className="flex w-full flex-col items-start gap-4">
-          <div className="flex w-full items-center justify-between">
-            <span className="text-heading-3 font-heading-3 text-default-font">
-              Receiver
-            </span>
+          <div 
+            className={`flex w-full items-center justify-between pt-2 py-2 transition-colors ${!isEmailDestinationOpen ? 'cursor-pointer hover:bg-neutral-25' : ''}`}
+            onClick={!isEmailDestinationOpen ? () => setIsEmailDestinationOpen(true) : undefined}
+          >
+            <div className="flex flex-col gap-2">
+              <span className="text-heading-3 font-heading-3 text-default-font">
+                Receiver
+              </span>
+              <span className={`text-body font-body text-subtext-color ${isEmailDestinationOpen ? 'invisible' : 'visible'}`}>
+                Who receives this signal
+              </span>
+            </div>
             <IconButton
               icon={isEmailDestinationOpen ? <FeatherChevronUp /> : <FeatherChevronDown />}
-              onClick={() => setIsEmailDestinationOpen(!isEmailDestinationOpen)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsEmailDestinationOpen(!isEmailDestinationOpen);
+              }}
             />
           </div>
           {isEmailDestinationOpen && (
-            <div className="flex w-full flex-col items-start gap-4">
+            <div className="flex w-full flex-col items-start gap-3">
               <TooltipField
                 label="Destination Type"
                 tooltip="Select where you want to send your analytics emails"

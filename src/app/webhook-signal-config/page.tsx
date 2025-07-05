@@ -11,14 +11,15 @@ import { TriggerSection, ScopeSection, ContentSection, SignalConfigLayout, Trigg
 type AuthType = "none" | "api-key" | "bearer-token" | "basic-auth" | "oauth";
 
 function WebhookSignalConfig() {
+  const [signalName, setSignalName] = useState("Real-time Analytics Webhook");
   const [activeTriggerTab, setActiveTriggerTab] = useState<TriggerType>("scheduled");
   const [selectedMetrics, setSelectedMetrics] = useState<string[]>([]);
   const [authType, setAuthType] = useState<AuthType>("none");
   
   // Accordion state
-  const [isWebhookDestinationOpen, setIsWebhookDestinationOpen] = useState(true);
-  const [isTriggerOpen, setIsTriggerOpen] = useState(true);
-  const [isScopeOpen, setIsScopeOpen] = useState(true);
+  const [isWebhookDestinationOpen, setIsWebhookDestinationOpen] = useState(false);
+  const [isTriggerOpen, setIsTriggerOpen] = useState(false);
+  const [isScopeOpen, setIsScopeOpen] = useState(false);
 
   // Auto-save functionality
   const configData = {
@@ -40,23 +41,35 @@ function WebhookSignalConfig() {
   return (
     <SignalConfigLayout 
       channelType="webhook"
-      signalName="Real-time Analytics Webhook" 
+      signalName={signalName}
+      onSignalNameChange={setSignalName}
       autoSave={{ isSaving, lastSaved, error }}
     >
       {/* Receiver Section */}
       <div className="flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
         <div className="flex w-full flex-col items-start gap-4">
-          <div className="flex w-full items-center justify-between">
-            <span className="text-heading-3 font-heading-3 text-default-font">
-              Receiver
-            </span>
+          <div 
+            className={`flex w-full items-center justify-between pt-2 py-2 transition-colors ${!isWebhookDestinationOpen ? 'cursor-pointer hover:bg-neutral-25' : ''}`}
+            onClick={!isWebhookDestinationOpen ? () => setIsWebhookDestinationOpen(true) : undefined}
+          >
+            <div className="flex flex-col gap-2">
+              <span className="text-heading-3 font-heading-3 text-default-font">
+                Receiver
+              </span>
+              <span className={`text-body font-body text-subtext-color ${isWebhookDestinationOpen ? 'invisible' : 'visible'}`}>
+                API endpoint configuration
+              </span>
+            </div>
             <IconButton
               icon={isWebhookDestinationOpen ? <FeatherChevronUp /> : <FeatherChevronDown />}
-              onClick={() => setIsWebhookDestinationOpen(!isWebhookDestinationOpen)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsWebhookDestinationOpen(!isWebhookDestinationOpen);
+              }}
             />
           </div>
           {isWebhookDestinationOpen && (
-            <div className="flex w-full flex-col items-start gap-4">
+            <div className="flex w-full flex-col items-start gap-3">
               <TooltipField
                 label="Webhook URL"
                 tooltip="The endpoint where analytics data will be sent"

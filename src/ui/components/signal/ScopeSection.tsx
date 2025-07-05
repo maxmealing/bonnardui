@@ -7,18 +7,31 @@ import { Select } from "@/ui/components/Select";
 import { TextArea } from "@/ui/components/TextArea";
 import { TooltipField } from "@/ui/components/signal/TooltipField";
 
+interface SignalData {
+  selectedMetrics: string[];
+  signalPrompt: string;
+  timeFrame?: string;
+  [key: string]: any;
+}
+
 interface ScopeSectionProps {
   selectedMetrics: string[];
   setSelectedMetrics: (metrics: string[]) => void;
   isScopeOpen: boolean;
   setIsScopeOpen: (open: boolean) => void;
+  validationData?: SignalData;
+  updateData?: (updates: Partial<SignalData>) => void;
+  getFieldError?: (field: string) => string | undefined;
 }
 
 export function ScopeSection({
   selectedMetrics,
   setSelectedMetrics,
   isScopeOpen,
-  setIsScopeOpen
+  setIsScopeOpen,
+  validationData,
+  updateData,
+  getFieldError
 }: ScopeSectionProps) {
   const metricNames: Record<string, string> = {
     "user-engagement": "User Engagement",
@@ -33,17 +46,28 @@ export function ScopeSection({
 
   return (
     <div className="flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
-      <div className="flex w-full items-center justify-between pt-2">
-        <span className="text-heading-3 font-heading-3 text-default-font">
-          Scope
-        </span>
+      <div 
+        className={`flex w-full items-center justify-between pt-2 py-2 transition-colors ${!isScopeOpen ? 'cursor-pointer hover:bg-neutral-25' : ''}`}
+        onClick={!isScopeOpen ? () => setIsScopeOpen(true) : undefined}
+      >
+        <div className="flex flex-col gap-2">
+          <span className="text-heading-3 font-heading-3 text-default-font">
+            Scope
+          </span>
+          <span className={`text-body font-body text-subtext-color ${isScopeOpen ? 'invisible' : 'visible'}`}>
+            What data to include
+          </span>
+        </div>
         <IconButton
           icon={isScopeOpen ? <FeatherChevronUp /> : <FeatherChevronDown />}
-          onClick={() => setIsScopeOpen(!isScopeOpen)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsScopeOpen(!isScopeOpen);
+          }}
         />
       </div>
       {isScopeOpen && (
-        <div className="flex w-full flex-col items-start gap-4">
+        <div className="flex w-full flex-col items-start gap-3">
           <TooltipField
             label="Signal Prompt"
             tooltip="Natural-language guidance for AI analysis of the selected metrics"

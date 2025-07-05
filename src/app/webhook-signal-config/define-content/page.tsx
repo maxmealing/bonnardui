@@ -527,12 +527,6 @@ export default function DefineWebhookContent() {
                 <span className="text-heading-3 font-heading-3 text-default-font">
                   JSON Preview
                 </span>
-                <IconButton
-                  size="small"
-                  variant="neutral-tertiary"
-                  icon={<FeatherEye />}
-                  title="Preview mode"
-                />
               </div>
               
               <div className="flex flex-col gap-3">

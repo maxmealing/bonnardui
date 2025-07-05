@@ -23,8 +23,8 @@ export function useAutoSave({
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
   
-  const timeoutRef = useRef<NodeJS.Timeout>();
-  const lastDataRef = useRef<string>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const lastDataRef = useRef<string | undefined>(undefined);
   const isInitialRender = useRef(true);
 
   useEffect(() => {

@@ -5,13 +5,14 @@ import { DefaultPageLayout } from "@/ui/layouts/DefaultPageLayout";
 import { Button } from "@/ui/components/Button";
 import { IconButton } from "@/ui/components/IconButton";
 import { AutoSaveIndicator } from "@/ui/components/AutoSaveIndicator";
-import { DropdownMenu } from "@/ui/components/DropdownMenu";
-import { FeatherArrowLeft, FeatherEye, FeatherMoreVertical, FeatherTrash, FeatherArchive } from "@subframe/core";
-import * as SubframeCore from "@subframe/core";
+import { EditableTitle } from "@/ui/components/EditableTitle";
+import { FeatherArrowLeft, FeatherEye } from "@subframe/core";
 
 interface SignalConfigLayoutProps {
   channelType: "slack" | "email" | "webhook";
   signalName?: string;
+  onSignalNameChange?: (name: string) => void;
+  onSignalNameSave?: (name: string) => Promise<void>;
   children: React.ReactNode;
   previewContent?: React.ReactNode;
   validationState?: {
@@ -25,20 +26,18 @@ interface SignalConfigLayoutProps {
     error: string | null;
   };
   onLaunchClick?: () => void;
-  onDeleteSignal?: () => void;
-  onArchiveSignal?: () => void;
 }
 
 export function SignalConfigLayout({ 
   channelType, 
   signalName,
+  onSignalNameChange,
+  onSignalNameSave,
   children, 
   previewContent,
   validationState,
   autoSave,
-  onLaunchClick,
-  onDeleteSignal,
-  onArchiveSignal
+  onLaunchClick
 }: SignalConfigLayoutProps) {
   const getChannelDisplayName = () => {
     switch (channelType) {
@@ -76,45 +75,9 @@ export function SignalConfigLayout({
               icon={<FeatherArrowLeft />}
               onClick={() => window.history.back()}
             />
-            <div className="flex items-center gap-3">
-              <span className="text-heading-2 font-heading-2 text-default-font">
-                {signalName || `Configure ${getChannelDisplayName()} Signal`}
-              </span>
-              <SubframeCore.DropdownMenu.Root>
-                <SubframeCore.DropdownMenu.Trigger asChild={true}>
-                  <IconButton
-                    variant="neutral-tertiary"
-                    size="small"
-                    icon={<FeatherMoreVertical />}
-                  />
-                </SubframeCore.DropdownMenu.Trigger>
-                <SubframeCore.DropdownMenu.Portal>
-                  <SubframeCore.DropdownMenu.Content
-                    side="bottom"
-                    align="start"
-                    sideOffset={8}
-                    asChild={true}
-                  >
-                    <DropdownMenu>
-                      <DropdownMenu.DropdownItem
-                        icon={<FeatherArchive />}
-                        onClick={onArchiveSignal}
-                      >
-                        Archive
-                      </DropdownMenu.DropdownItem>
-                      <DropdownMenu.DropdownDivider />
-                      <DropdownMenu.DropdownItem
-                        icon={<FeatherTrash />}
-                        onClick={onDeleteSignal}
-                        className="text-red-600 hover:bg-red-50"
-                      >
-                        Delete
-                      </DropdownMenu.DropdownItem>
-                    </DropdownMenu>
-                  </SubframeCore.DropdownMenu.Content>
-                </SubframeCore.DropdownMenu.Portal>
-              </SubframeCore.DropdownMenu.Root>
-            </div>
+            <span className="text-heading-2 font-heading-2 text-default-font">
+              Configure {getChannelDisplayName()} Signal
+            </span>
           </div>
           <div className="flex items-center gap-4">
             {autoSave && (
@@ -139,6 +102,27 @@ export function SignalConfigLayout({
             </div>
           </div>
         </div>
+        
+        {/* Editable Signal Name Section */}
+        {onSignalNameChange && (
+          <div className="w-full max-w-[1024px]">
+            <EditableTitle
+              value={signalName || ""}
+              onChange={onSignalNameChange}
+              onSave={onSignalNameSave}
+              placeholder="Untitled"
+              maxLength={100}
+              minLength={1}
+              isSaving={autoSave?.isSaving}
+              validateName={(name) => {
+                if (!name.trim()) return "Please enter a name for your signal";
+                if (name.trim().length < 3) return "Signal name must be at least 3 characters";
+                return null;
+              }}
+            />
+          </div>
+        )}
+        
         <div className="flex w-full max-w-[1024px] items-start gap-6">
           <div className="flex grow shrink-0 basis-0 flex-col items-start gap-6">
             {children}

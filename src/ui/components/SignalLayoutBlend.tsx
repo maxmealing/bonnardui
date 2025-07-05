@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { DialogLayout } from "@/ui/layouts/DialogLayout";
 import { IconWithBackground } from "@/ui/components/IconWithBackground";
-import { FeatherMessageSquare } from "@subframe/core";
+import { FeatherSlack } from "@subframe/core";
 import { FeatherCode } from "@subframe/core";
 import { FeatherMail } from "@subframe/core";
 import { Button } from "@/ui/components/Button";
@@ -26,71 +26,71 @@ function SignalLayoutBlend({ open, onOpenChange }: SignalLayoutBlendProps) {
         <span className="text-heading-2 font-heading-2 text-default-font">
           Choose a signal type
         </span>
-        <div className="w-full items-start gap-4 grid grid-cols-3">
+        <div className="w-full items-start gap-3 grid grid-cols-3">
           <div 
-            className={`flex grow shrink-0 basis-0 items-center gap-4 rounded-md border border-solid px-4 py-4 shadow-sm cursor-pointer transition-all hover:shadow-md ${
+            className={`flex flex-col items-start gap-2 p-4 rounded-lg cursor-pointer transition-all duration-200 ${
               selectedType === "slack" 
-                ? "border-brand-primary bg-brand-50" 
-                : "border-neutral-border bg-default-background hover:border-neutral-300"
+                ? "bg-brand-50 border border-solid border-brand-200 shadow-sm" 
+                : "bg-white border border-solid border-neutral-200 hover:border-neutral-300 hover:shadow-sm"
             }`}
             onClick={() => setSelectedType("slack")}
           >
-            <IconWithBackground
-              size="large"
-              icon={<FeatherMessageSquare />}
-              square={true}
-            />
-            <div className="flex grow shrink-0 basis-0 flex-col items-start gap-1">
-              <span className="text-body-bold font-body-bold text-default-font">
-                Slack
-              </span>
-              <span className="text-caption font-caption text-subtext-color">
-                Send insights to Slack channels
-              </span>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-8 h-8 rounded-md bg-neutral-100">
+                <FeatherSlack className="w-4 h-4 text-neutral-700" />
+              </div>
+              <div className="flex flex-col items-start">
+                <span className="text-body-bold font-body-bold text-default-font">
+                  Slack
+                </span>
+                <span className="text-caption font-caption text-subtext-color">
+                  Send to channels
+                </span>
+              </div>
             </div>
           </div>
           <div 
-            className={`flex grow shrink-0 basis-0 items-center gap-4 rounded-md border border-solid px-4 py-4 shadow-sm cursor-pointer transition-all hover:shadow-md ${
+            className={`flex flex-col items-start gap-2 p-4 rounded-lg cursor-pointer transition-all duration-200 ${
               selectedType === "email" 
-                ? "border-brand-primary bg-brand-50" 
-                : "border-neutral-border bg-default-background hover:border-neutral-300"
+                ? "bg-brand-50 border border-solid border-brand-200 shadow-sm" 
+                : "bg-white border border-solid border-neutral-200 hover:border-neutral-300 hover:shadow-sm"
             }`}
             onClick={() => setSelectedType("email")}
           >
-            <IconWithBackground
-              size="large"
-              icon={<FeatherMail />}
-              square={true}
-            />
-            <div className="flex grow shrink-0 basis-0 flex-col items-start gap-1">
-              <span className="text-body-bold font-body-bold text-default-font">
-                Email
-              </span>
-              <span className="text-caption font-caption text-subtext-color">
-                Send formatted email reports
-              </span>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-8 h-8 rounded-md bg-neutral-100">
+                <FeatherMail className="w-4 h-4 text-neutral-700" />
+              </div>
+              <div className="flex flex-col items-start">
+                <span className="text-body-bold font-body-bold text-default-font">
+                  Email
+                </span>
+                <span className="text-caption font-caption text-subtext-color">
+                  Send to inbox
+                </span>
+              </div>
             </div>
           </div>
           <div 
-            className={`flex grow shrink-0 basis-0 items-center gap-4 rounded-md border border-solid px-4 py-4 shadow-sm cursor-pointer transition-all hover:shadow-md ${
+            className={`flex flex-col items-start gap-2 p-4 rounded-lg cursor-pointer transition-all duration-200 ${
               selectedType === "webhook" 
-                ? "border-brand-primary bg-brand-50" 
-                : "border-neutral-border bg-default-background hover:border-neutral-300"
+                ? "bg-brand-50 border border-solid border-brand-200 shadow-sm" 
+                : "bg-white border border-solid border-neutral-200 hover:border-neutral-300 hover:shadow-sm"
             }`}
             onClick={() => setSelectedType("webhook")}
           >
-            <IconWithBackground
-              size="large"
-              icon={<FeatherCode />}
-              square={true}
-            />
-            <div className="flex grow shrink-0 basis-0 flex-col items-start gap-1">
-              <span className="text-body-bold font-body-bold text-default-font">
-                Webhook
-              </span>
-              <span className="text-caption font-caption text-subtext-color">
-                Send JSON data to HTTP endpoints
-              </span>
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-8 h-8 rounded-md bg-neutral-100">
+                <FeatherCode className="w-4 h-4 text-neutral-700" />
+              </div>
+              <div className="flex flex-col items-start">
+                <span className="text-body-bold font-body-bold text-default-font">
+                  Webhook
+                </span>
+                <span className="text-caption font-caption text-subtext-color">
+                  Send to API
+                </span>
+              </div>
             </div>
           </div>
         </div>

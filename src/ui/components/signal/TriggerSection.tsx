@@ -10,32 +10,65 @@ import { TooltipField } from "@/ui/components/signal/TooltipField";
 
 export type TriggerType = "scheduled" | "one-time" | "agent-triggered";
 
+interface SignalData {
+  triggerType: TriggerType;
+  frequency?: string;
+  startDateTime?: string;
+  timezone?: string;
+  executionDateTime?: string;
+  monitorMetric?: string;
+  conditionType?: string;
+  direction?: string;
+  thresholdValue?: string;
+  timeWindow?: string;
+  checkFrequency?: string;
+  cooldownPeriod?: string;
+  [key: string]: any;
+}
+
 interface TriggerSectionProps {
   activeTriggerTab: TriggerType;
   setActiveTriggerTab: (tab: TriggerType) => void;
   isTriggerOpen: boolean;
   setIsTriggerOpen: (open: boolean) => void;
+  validationData?: SignalData;
+  updateData?: (updates: Partial<SignalData>) => void;
+  getFieldError?: (field: string) => string | undefined;
 }
 
 export function TriggerSection({
   activeTriggerTab,
   setActiveTriggerTab,
   isTriggerOpen,
-  setIsTriggerOpen
+  setIsTriggerOpen,
+  validationData,
+  updateData,
+  getFieldError
 }: TriggerSectionProps) {
   return (
     <div className="flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
-      <div className="flex w-full items-center justify-between pt-2">
-        <span className="text-heading-3 font-heading-3 text-default-font">
-          Trigger
-        </span>
+      <div 
+        className={`flex w-full items-center justify-between pt-2 py-2 transition-colors ${!isTriggerOpen ? 'cursor-pointer hover:bg-neutral-25' : ''}`}
+        onClick={!isTriggerOpen ? () => setIsTriggerOpen(true) : undefined}
+      >
+        <div className="flex flex-col gap-2">
+          <span className="text-heading-3 font-heading-3 text-default-font">
+            Trigger
+          </span>
+          <span className={`text-body font-body text-subtext-color ${isTriggerOpen ? 'invisible' : 'visible'}`}>
+            When to send this signal
+          </span>
+        </div>
         <IconButton
           icon={isTriggerOpen ? <FeatherChevronUp /> : <FeatherChevronDown />}
-          onClick={() => setIsTriggerOpen(!isTriggerOpen)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsTriggerOpen(!isTriggerOpen);
+          }}
         />
       </div>
       {isTriggerOpen && (
-        <div className="flex w-full flex-col items-start gap-6">
+        <div className="flex w-full flex-col items-start gap-4">
           <Tabs>
             <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4">
               {/* Tab Navigation */}

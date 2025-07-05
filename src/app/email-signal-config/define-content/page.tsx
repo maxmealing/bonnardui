@@ -672,12 +672,6 @@ export default function DefineEmailContent() {
               lastSaved={lastSaved}
               error={error}
             />
-            <Button
-              variant="neutral-secondary"
-              onClick={() => {}}
-            >
-              Preview
-            </Button>
           </div>
         </div>
 
@@ -777,12 +771,6 @@ export default function DefineEmailContent() {
                 <span className="text-heading-3 font-heading-3 text-default-font">
                   Email Preview
                 </span>
-                <IconButton
-                  size="small"
-                  variant="neutral-tertiary"
-                  icon={<FeatherEye />}
-                  title="Preview mode"
-                />
               </div>
               
               <div className="flex flex-col gap-3 rounded-lg border border-solid border-neutral-200 bg-white p-4 min-h-[400px]">

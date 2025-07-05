@@ -69,9 +69,12 @@ export function TooltipField({
       
       {/* Enhanced children with error state */}
       <div className="relative">
-        {React.cloneElement(children as React.ReactElement, {
-          error: !!error
-        })}
+        {React.isValidElement(children) && children.type && typeof children.type === 'function' 
+          ? React.cloneElement(children as React.ReactElement<any>, {
+              error: !!error
+            })
+          : children
+        }
       </div>
       
       {/* Error message */}

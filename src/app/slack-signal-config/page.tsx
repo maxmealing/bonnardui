@@ -8,6 +8,8 @@ import { FeatherX } from "@subframe/core";
 import { TriggerSection, ScopeSection, ContentSection, SignalConfigLayout, TriggerType, TooltipField, useSignalValidation, useAutoSave, AutoSaveIndicator } from "@/ui";
 
 function SlackSignalConfig() {
+  const [signalName, setSignalName] = useState("Weekly User Engagement Report");
+  
   // Validation hook
   const { data, validationState, updateData, getFieldError, attemptLaunch, hasAttemptedLaunch } = useSignalValidation({
     destinationType: "channel",
@@ -15,9 +17,9 @@ function SlackSignalConfig() {
   });
   
   // Accordion state
-  const [isSlackDestinationOpen, setIsSlackDestinationOpen] = useState(true);
-  const [isTriggerOpen, setIsTriggerOpen] = useState(true);
-  const [isScopeOpen, setIsScopeOpen] = useState(true);
+  const [isSlackDestinationOpen, setIsSlackDestinationOpen] = useState(false);
+  const [isTriggerOpen, setIsTriggerOpen] = useState(false);
+  const [isScopeOpen, setIsScopeOpen] = useState(false);
 
   // Auto-save functionality
   const { isSaving, lastSaved, error } = useAutoSave({
@@ -44,7 +46,8 @@ function SlackSignalConfig() {
   return (
     <SignalConfigLayout 
       channelType="slack"
-      signalName="Weekly User Engagement Report"
+      signalName={signalName}
+      onSignalNameChange={setSignalName}
       validationState={validationState}
       autoSave={{ isSaving, lastSaved, error }}
       onLaunchClick={handleLaunchClick}
@@ -52,30 +55,41 @@ function SlackSignalConfig() {
       {/* Receiver Section */}
       <div className="flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
         <div className="flex w-full flex-col items-start gap-4">
-          <div className="flex w-full items-center justify-between pt-2">
-            <div className="flex items-center gap-2">
-              <span className="text-heading-3 font-heading-3 text-default-font">
-                Receiver
+          <div 
+            className={`flex w-full items-center justify-between pt-2 py-2 transition-colors ${!isSlackDestinationOpen ? 'cursor-pointer hover:bg-neutral-25' : ''}`}
+            onClick={!isSlackDestinationOpen ? () => setIsSlackDestinationOpen(true) : undefined}
+          >
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-heading-3 font-heading-3 text-default-font">
+                  Receiver
+                </span>
+                {hasAttemptedLaunch && validationState.receiver.errors.length > 0 && (
+                  <div className="flex items-center gap-1 px-2 py-1 rounded-md bg-error-50">
+                    <FeatherAlertCircle className="w-3 h-3 text-error-600" />
+                    <span className="text-caption font-caption text-error-700">
+                      {validationState.receiver.errors.length}
+                    </span>
+                  </div>
+                )}
+                {!hasAttemptedLaunch && validationState.receiver.isComplete && (
+                  <FeatherCheck className="w-4 h-4 text-success-600" />
+                )}
+              </div>
+              <span className={`text-body font-body text-subtext-color ${isSlackDestinationOpen ? 'invisible' : 'visible'}`}>
+                Where to send this signal
               </span>
-              {hasAttemptedLaunch && validationState.receiver.errors.length > 0 && (
-                <div className="flex items-center gap-1 px-2 py-1 rounded-md bg-error-50">
-                  <FeatherAlertCircle className="w-3 h-3 text-error-600" />
-                  <span className="text-caption font-caption text-error-700">
-                    {validationState.receiver.errors.length}
-                  </span>
-                </div>
-              )}
-              {!hasAttemptedLaunch && validationState.receiver.isComplete && (
-                <FeatherCheck className="w-4 h-4 text-success-600" />
-              )}
             </div>
             <IconButton
               icon={isSlackDestinationOpen ? <FeatherChevronUp /> : <FeatherChevronDown />}
-              onClick={() => setIsSlackDestinationOpen(!isSlackDestinationOpen)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsSlackDestinationOpen(!isSlackDestinationOpen);
+              }}
             />
           </div>
           {isSlackDestinationOpen && (
-            <div className="flex w-full flex-col items-start gap-4">
+            <div className="flex w-full flex-col items-start gap-3">
             <TooltipField
               label="Destination Type"
               tooltip="Select where you want to send your analytics insights"
