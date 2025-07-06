@@ -6,11 +6,11 @@ import { FeatherChevronUp, FeatherChevronDown } from "@subframe/core";
 import { Select } from "@/ui/components/Select";
 import { TextField } from "@/ui/components/TextField";
 import { FeatherLock, FeatherKey } from "@subframe/core";
-import { TriggerSection, ScopeSection, ContentSection, SignalConfigLayout, TriggerType, TooltipField, useAutoSave } from "@/ui";
+import { TriggerSection, ScopeSection, ContentSection, SignalConfigLayout, TriggerType, TooltipField, useAutoSave, SignalConfigProvider } from "@/ui";
 
 type AuthType = "none" | "api-key" | "bearer-token" | "basic-auth" | "oauth";
 
-function WebhookSignalConfig() {
+function WebhookSignalConfigContent() {
   const [signalName, setSignalName] = useState("Real-time Analytics Webhook");
   const [activeTriggerTab, setActiveTriggerTab] = useState<TriggerType>("scheduled");
   const [selectedMetrics, setSelectedMetrics] = useState<string[]>([]);
@@ -38,12 +38,48 @@ function WebhookSignalConfig() {
     delay: 2000 // Save 2 seconds after last change
   });
   
+  const webhookPreview = (
+    <div className="flex flex-col gap-3 w-full">
+      <div className="rounded-lg border border-solid border-neutral-200 bg-neutral-50 p-3">
+        <div className="text-caption-bold font-caption-bold text-neutral-700 mb-2">Request Preview:</div>
+        <div className="text-caption font-mono text-neutral-600">
+          POST /webhook/endpoint<br/>
+          Content-Type: application/json<br/>
+          Authorization: Bearer [token]
+        </div>
+      </div>
+      
+      <div className="rounded-lg border border-solid border-neutral-200 bg-white p-4">
+        <pre className="text-caption font-mono text-default-font whitespace-pre-wrap">{`{
+  "event_type": "performance_anomaly",
+  "alert_level": "critical",
+  "metric_name": "*metric name*",
+  "current_value": "*metric value*",
+  "previous_value": "*previous value*",
+  "change_percentage": "*change percentage*",
+  "trend": "*trend direction*",
+  "time_period": "*time period*",
+  "timestamp": "*timestamp*",
+  "notify_team": true
+}`}</pre>
+      </div>
+      
+      <div className="rounded-lg border border-solid border-neutral-200 bg-brand-25 p-3">
+        <div className="text-caption-bold font-caption-bold text-brand-700 mb-2">Variables:</div>
+        <div className="text-caption font-caption text-brand-600">
+          Variables like {`{{metric_value}}`} will be replaced with actual values when the webhook is triggered.
+        </div>
+      </div>
+    </div>
+  );
+  
   return (
     <SignalConfigLayout 
       channelType="webhook"
       signalName={signalName}
       onSignalNameChange={setSignalName}
       autoSave={{ isSaving, lastSaved, error, onManualSave: manualSave }}
+      previewContent={webhookPreview}
     >
       {/* Receiver Section */}
       <div className="flex w-full flex-col items-start rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
@@ -312,6 +348,14 @@ function WebhookSignalConfig() {
       {/* Content Section - Using extracted component */}
       <ContentSection channelType="webhook" />
     </SignalConfigLayout>
+  );
+}
+
+function WebhookSignalConfig() {
+  return (
+    <SignalConfigProvider>
+      <WebhookSignalConfigContent />
+    </SignalConfigProvider>
   );
 }
 

@@ -2,13 +2,13 @@
 
 import React, { useState } from "react";
 import { IconButton } from "@/ui/components/IconButton";
-import { FeatherChevronUp, FeatherChevronDown } from "@subframe/core";
+import { FeatherChevronUp, FeatherChevronDown, FeatherCpu } from "@subframe/core";
 import { Select } from "@/ui/components/Select";
 import { TextField } from "@/ui/components/TextField";
 import { FeatherX } from "@subframe/core";
-import { TriggerSection, ScopeSection, ContentSection, SignalConfigLayout, TriggerType, TooltipField, useAutoSave } from "@/ui";
+import { TriggerSection, ScopeSection, ContentSection, SignalConfigLayout, TriggerType, TooltipField, useAutoSave, SignalConfigProvider } from "@/ui";
 
-function EmailSignalConfig() {
+function EmailSignalConfigContent() {
   const [signalName, setSignalName] = useState("Monthly Performance Dashboard");
   const [activeTriggerTab, setActiveTriggerTab] = useState<TriggerType>("scheduled");
   const [destinationType, setDestinationType] = useState<string>("individual");
@@ -38,12 +38,68 @@ function EmailSignalConfig() {
     delay: 2000 // Save 2 seconds after last change
   });
   
+  const emailPreview = (
+    <div className="flex flex-col gap-3 rounded-lg border border-solid border-neutral-200 bg-white p-4 w-full">
+      {/* Email header */}
+      <div className="flex flex-col gap-2 pb-3 border-b border-neutral-100">
+        <div className="flex items-center gap-2">
+          <span className="text-caption-bold font-caption-bold text-default-font">From:</span>
+          <span className="text-caption font-caption text-subtext-color">analytics@company.com</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-caption-bold font-caption-bold text-default-font">Subject:</span>
+          <span className="text-caption font-caption text-default-font">
+            📈 Daily Revenue Alert - <span className="font-bold">*time period*</span>
+          </span>
+        </div>
+      </div>
+      
+      {/* Email content preview */}
+      <div className="flex flex-col gap-3">
+        <div className="text-heading-3 font-heading-3 text-default-font">
+          Daily Revenue Summary
+        </div>
+        <div className="text-body font-body text-default-font">
+          Hello <span className="font-bold">*user name*</span>,<br/><br/>
+          Here&apos;s your daily revenue report for <span className="font-bold">*time period*</span>:
+        </div>
+        <div className="text-body-bold font-body-bold text-default-font">
+          💰 Revenue Metrics
+        </div>
+        <div className="text-body font-body text-default-font">
+          Total Revenue: $<span className="font-bold">*metric value*</span><br/>
+          Change from yesterday: <span className="font-bold">*trend*</span> <span className="font-bold">*change %*</span>%<br/>
+          Previous day: $<span className="font-bold">*previous value*</span>
+        </div>
+        <div className="rounded border border-solid border-neutral-200 bg-neutral-50 p-3 mt-2">
+          <div className="flex items-center gap-2 mb-2">
+            <FeatherCpu className="w-4 h-4 text-brand-600" />
+            <span className="text-caption-bold font-caption-bold text-brand-700">AI Generated</span>
+          </div>
+          <div className="text-body font-body text-neutral-700">
+            [AI analysis of revenue trends and actionable insights...]
+          </div>
+        </div>
+        <div className="text-center mt-3">
+          <div className="inline-block bg-brand-600 text-white px-6 py-3 rounded-md text-body-bold font-body-bold">
+            View Full Dashboard
+          </div>
+        </div>
+        <div className="text-body font-body text-default-font mt-2 text-neutral-600">
+          Best regards,<br/>
+          The Analytics Team
+        </div>
+      </div>
+    </div>
+  );
+  
   return (
     <SignalConfigLayout 
       channelType="email"
       signalName={signalName}
       onSignalNameChange={setSignalName}
       autoSave={{ isSaving, lastSaved, error, onManualSave: manualSave }}
+      previewContent={emailPreview}
     >
       {/* Receiver Section */}
       <div className="flex w-full flex-col items-start rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">
@@ -262,6 +318,14 @@ function EmailSignalConfig() {
       {/* Content Section - Using extracted component */}
       <ContentSection channelType="email" />
     </SignalConfigLayout>
+  );
+}
+
+function EmailSignalConfig() {
+  return (
+    <SignalConfigProvider>
+      <EmailSignalConfigContent />
+    </SignalConfigProvider>
   );
 }
 

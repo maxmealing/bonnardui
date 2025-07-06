@@ -9,10 +9,15 @@ BonnardUI is a Next.js 15 application built with React 19, TypeScript, and Tailw
 ## Development Commands
 
 ### Core Commands
-- `npm run dev` - Start development server with Turbopack
-- `npm run build` - Build production application
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint for code quality checks
+- `pnpm run dev` - Start development server with Turbopack
+- `pnpm run build` - Build production application
+- `pnpm run start` - Start production server
+- `pnpm run lint` - Run ESLint for code quality checks
+- `pnpm run test` - Run Jest tests
+- `pnpm run test:watch` - Run Jest tests in watch mode
+
+### Package Manager
+This project uses **PNPM** as the package manager. Always use `pnpm` instead of `npm` for all package management tasks.
 
 ### Development Server
 The development server runs on `http://localhost:3000` by default with Turbopack enabled for faster builds.
@@ -65,6 +70,7 @@ Components follow a consistent design system with:
 - Size options (small, medium, large)
 - Proper hover, active, and disabled states
 - Icon support with Feather icons from Subframe
+- **AI features**: Always use the sparkle icon (FeatherSparkles) with neutral colors only
 
 ## Development Patterns
 
@@ -124,6 +130,12 @@ Components follow a consistent design system with:
 - Implement secondary colors for supplementary information
 - Consistent icon sizing (1.125rem) with proper vertical alignment
 
+**AI Feature Design Standards:**
+- **Icon**: Always use FeatherSparkles icon for AI-powered features
+- **Color scheme**: Neutral colors only (neutral-400, neutral-600, neutral-700)
+- **No brand colors**: Avoid using brand/accent colors for AI features
+- **Consistency**: Apply this standard across all AI-related components, buttons, and indicators
+
 ### Subframe Integration Best Practices
 **Component Usage:**
 - Leverage Subframe's component library for consistency
@@ -145,13 +157,71 @@ Components follow a consistent design system with:
 
 ## Testing and Quality
 
+### Testing Philosophy
+**ALWAYS WRITE TESTS FIRST** - This project follows Test-Driven Development (TDD) principles:
+- Write comprehensive tests before implementing features
+- Test all functions, interactive elements, validation logic, and edge cases
+- Ensure tests cover happy paths, error conditions, and user interactions
+- Create tests that verify the expected behavior based on requirements
+
+### Test Coverage Requirements
+When implementing any new feature, you must create tests for:
+- **Component rendering** and all interactive elements
+- **Validation logic** including field validation and cross-section dependencies
+- **State management** including data updates, persistence, and reactivity
+- **User interactions** such as form submissions, navigation, and error handling
+- **Integration scenarios** between components, hooks, and context providers
+- **Edge cases** including invalid inputs, error conditions, and boundary values
+- **Auto-save functionality** and data persistence patterns
+- **Preview generation** and personalization features
+
+### Testing Framework
+- **Jest** with React Testing Library for component and integration testing
+- **@testing-library/react-hooks** for custom hook testing
+- **JSDOM** environment for browser API simulation
+- **Comprehensive mocking** for UI components, localStorage, navigation, and external dependencies
+- **Timer mocking** for auto-save, debouncing, and async functionality testing
+
+### Test Organization
+```
+src/
+├── app/
+│   └── [page]/
+│       └── __tests__/
+│           └── page.test.tsx
+├── ui/
+│   ├── components/
+│   │   └── [component]/
+│   │       └── __tests__/
+│   │           └── [component].test.tsx
+│   ├── hooks/
+│   │   └── __tests__/
+│   │       └── [hook].test.ts
+│   └── contexts/
+│       └── __tests__/
+│           └── [context].test.tsx
+```
+
 ### Code Quality
 - ESLint configuration extends Next.js recommended rules
 - TypeScript strict mode for type safety
 - Consistent code formatting expected
+- **Minimum 90% test coverage** for all critical functionality
 
-### Development Workflow
-1. Run `npm run dev` for local development
-2. Make changes to components or pages
-3. Run `npm run lint` to check code quality
-4. Build with `npm run build` before deployment
+### Development Workflow (Test-First Approach)
+1. **Write failing tests** that define the expected behavior
+2. **Run tests** to confirm they fail (`pnpm run test`)
+3. **Implement minimal code** to make tests pass
+4. **Refactor code** while keeping tests green
+5. **Run full test suite** to ensure no regressions (`pnpm run test`)
+6. **Run linting** to check code quality (`pnpm run lint`)
+7. **Build application** to verify production readiness (`pnpm run build`)
+
+### Testing Best Practices
+- **Test behavior, not implementation** - Focus on what the component does, not how it does it
+- **Use descriptive test names** that clearly explain what is being tested
+- **Group related tests** using `describe` blocks for organization
+- **Mock external dependencies** to isolate units under test
+- **Test user interactions** using fireEvent and user-event libraries
+- **Verify error handling** and edge cases thoroughly
+- **Keep tests maintainable** by avoiding brittle selectors and implementation details

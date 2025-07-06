@@ -4,21 +4,20 @@ import React, { useState, useRef, useEffect } from "react";
 import { DefaultPageLayout } from "@/ui/layouts/DefaultPageLayout";
 import { Button } from "@/ui/components/Button";
 import { IconButton } from "@/ui/components/IconButton";
-import { useAutoSave, AutoSaveIndicator } from "@/ui";
+import { useAutoSave, AutoSaveIndicator, SignalConfigProvider, useSignalConfig } from "@/ui";
 import { 
   FeatherType, 
   FeatherHash, 
-  FeatherCpu, 
   FeatherX, 
   FeatherArrowLeft,
-  FeatherEye,
   FeatherUser, 
   FeatherBarChart3, 
   FeatherClock, 
   FeatherTrendingUp, 
   FeatherPercent,
   FeatherMoreHorizontal,
-  FeatherSparkles
+  FeatherSparkles,
+  FeatherAlertCircle
 } from "@subframe/core";
 
 type BlockType = "text" | "heading" | "ai-prompt";
@@ -466,12 +465,35 @@ function BlockComponent({ block, blocks, onUpdate, onDelete, onAddBlock, onShowS
   );
 }
 
-export default function DefineContent() {
-  const [blocks, setBlocks] = useState<Block[]>([
+function DefineContentPage() {
+  const { data: contextData, updateData: updateContextData } = useSignalConfig();
+  const [blocks, setBlocks] = useState<Block[]>(contextData.contentBlocks.length > 0 ? contextData.contentBlocks as Block[] : [
     {
       id: '1',
-      type: 'text',
-      content: '',
+      type: 'heading' as BlockType,
+      content: '📊 Weekly User Engagement Report',
+      level: 1
+    },
+    {
+      id: '2',
+      type: 'text' as BlockType,
+      content: 'Hey {{user_name}}! Here\'s your weekly engagement summary for {{time_period}}:'
+    },
+    {
+      id: '3',
+      type: 'heading' as BlockType,
+      content: 'Key Metrics',
+      level: 2
+    },
+    {
+      id: '4',
+      type: 'text' as BlockType,
+      content: '• Active Users: {{metric_value}} ({{trend_direction}} {{change_percentage}}% from {{previous_value}})\n• Session Duration: {{metric_value}} minutes\n• Page Views: {{metric_value}}'
+    },
+    {
+      id: '5',
+      type: 'ai-prompt' as BlockType,
+      content: 'Generate a brief insight about the user engagement trends based on {{metric_value}} and {{change_percentage}}, highlighting what actions could improve engagement next week.'
     }
   ]);
   
@@ -480,6 +502,32 @@ export default function DefineContent() {
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
   const [activeBlockId, setActiveBlockId] = useState<string | null>(null);
 
+  // Content validation
+  const validateContent = () => {
+    const errors: string[] = [];
+    
+    if (blocks.length === 0) {
+      errors.push("At least one content block is required");
+    }
+    
+    const hasEmptyBlocks = blocks.some(block => !block.content || block.content.trim() === '');
+    if (hasEmptyBlocks) {
+      errors.push("All content blocks must have content");
+    }
+    
+    // Check AI prompts have sufficient context
+    const aiPrompts = blocks.filter(block => block.type === 'ai-prompt');
+    const hasShortAiPrompts = aiPrompts.some(block => block.content.length < 20);
+    if (hasShortAiPrompts) {
+      errors.push("AI prompts should be more descriptive (at least 20 characters)");
+    }
+    
+    return {
+      isValid: errors.length === 0,
+      errors
+    };
+  };
+
   // Auto-save functionality
   const { isSaving, lastSaved, error, manualSave } = useAutoSave({
     data: blocks,
@@ -487,6 +535,13 @@ export default function DefineContent() {
       // Simulate API call to save content
       await new Promise(resolve => setTimeout(resolve, 500));
       console.log('Saving content blocks:', data);
+      
+      // Validate content and update context
+      const validation = validateContent();
+      updateContextData({
+        hasContent: validation.isValid,
+        contentBlocks: data
+      });
     },
     delay: 2000 // Save 2 seconds after last change
   });
@@ -573,6 +628,17 @@ export default function DefineContent() {
             </span>
           </div>
           <div className="flex items-center gap-4">
+            {(() => {
+              const validation = validateContent();
+              return !validation.isValid && blocks.length > 0 && (
+                <div className="flex items-center gap-2 px-3 py-1 rounded-md bg-error-50 border border-error-200">
+                  <FeatherAlertCircle className="w-4 h-4 text-error-600" />
+                  <span className="text-caption font-caption text-error-700">
+                    {validation.errors.length} issue{validation.errors.length !== 1 ? 's' : ''}
+                  </span>
+                </div>
+              );
+            })()}
             <AutoSaveIndicator 
               isSaving={isSaving}
               lastSaved={lastSaved}
@@ -647,10 +713,14 @@ export default function DefineContent() {
               <div className="flex flex-col gap-3 rounded-lg border border-solid border-neutral-200 bg-white p-4 min-h-[400px]">
                 {/* Slack message header */}
                 <div className="flex items-center gap-2 pb-2 border-b border-neutral-100">
-                  <div className="w-6 h-6 rounded bg-brand-500 flex items-center justify-center">
-                    <span className="text-white text-caption font-caption-bold">S</span>
+                  <div className="w-6 h-6 rounded bg-white flex items-center justify-center">
+                    <img
+                      className="h-4 w-4 flex-none object-cover"
+                      src="https://res.cloudinary.com/subframe/image/upload/v1751013286/uploads/15436/ojozrh7lowper2q3npma.png"
+                      alt="Bonnard"
+                    />
                   </div>
-                  <span className="text-body-bold font-body-bold text-default-font">Signal Bot</span>
+                  <span className="text-body-bold font-body-bold text-default-font">Bonnard</span>
                   <span className="text-caption font-caption text-subtext-color">Today at 12:00 PM</span>
                 </div>
                 
@@ -671,13 +741,12 @@ export default function DefineContent() {
                         </div>
                       )}
                       {block.type === 'ai-prompt' && block.content && (
-                        <div className="rounded border border-solid border-neutral-200 bg-neutral-50 p-3">
-                          <div className="flex items-center gap-2 mb-2">
-                            <FeatherCpu className="w-4 h-4 text-brand-600" />
-                            <span className="text-caption-bold font-caption-bold text-brand-700">AI Generated</span>
+                        <div className="border-l-2 pl-4 py-3 mt-2" style={{borderLeft: "2px solid", borderImage: "linear-gradient(to bottom, #a855f7, #3b82f6) 1"}}>
+                          <div className="text-body-bold font-body-bold text-default-font mb-2">
+                            Recommended focus
                           </div>
                           <div className="text-body font-body text-neutral-700">
-                            [Dynamic content will be generated based on: &quot;{block.content}&quot;]
+                            <span className="font-bold">*AI-generated recommendations based on user data and trends*</span>
                           </div>
                         </div>
                       )}
@@ -713,5 +782,13 @@ export default function DefineContent() {
         )}
       </div>
     </DefaultPageLayout>
+  );
+}
+
+export default function DefineContent() {
+  return (
+    <SignalConfigProvider>
+      <DefineContentPage />
+    </SignalConfigProvider>
   );
 }

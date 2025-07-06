@@ -365,25 +365,61 @@ export default function DefineWebhookContent() {
       id: '1',
       key: 'event_type',
       type: 'string',
-      value: 'analytics_signal',
+      value: 'performance_anomaly',
     },
     {
       id: '2',
+      key: 'alert_level',
+      type: 'string',
+      value: 'critical',
+    },
+    {
+      id: '3',
       key: 'metric_name',
       type: 'variable',
       value: '{{metric_name}}',
     },
     {
-      id: '3',
-      key: 'metric_value',
+      id: '4',
+      key: 'current_value',
       type: 'variable',
       value: '{{metric_value}}',
     },
     {
-      id: '4',
+      id: '5',
+      key: 'previous_value',
+      type: 'variable',
+      value: '{{previous_value}}',
+    },
+    {
+      id: '6',
+      key: 'change_percentage',
+      type: 'variable',
+      value: '{{change_percentage}}',
+    },
+    {
+      id: '7',
+      key: 'trend',
+      type: 'variable',
+      value: '{{trend_direction}}',
+    },
+    {
+      id: '8',
+      key: 'time_period',
+      type: 'variable',
+      value: '{{time_period}}',
+    },
+    {
+      id: '9',
       key: 'timestamp',
       type: 'variable',
       value: '{{timestamp}}',
+    },
+    {
+      id: '10',
+      key: 'notify_team',
+      type: 'boolean',
+      value: 'true',
     }
   ]);
   

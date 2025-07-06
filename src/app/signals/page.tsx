@@ -11,6 +11,7 @@ import { FeatherCode } from "@subframe/core";
 import { FeatherMail } from "@subframe/core";
 import { FeatherSignal } from "@subframe/core";
 import SignalLayoutBlend from "@/ui/components/SignalLayoutBlend";
+import { SignalConfigProvider, useSignalConfig } from "@/ui";
 
 // Signal interface
 interface Signal {
@@ -26,6 +27,31 @@ const sampleSignals: Signal[] = [
   { id: "2", name: "Daily Revenue Alert", channel: "email", status: "active" },
   { id: "3", name: "Performance Anomaly Detection", channel: "webhook", status: "draft" }
 ];
+
+// Function to load draft signals from localStorage
+const loadDraftSignals = (): Signal[] => {
+  const drafts: Signal[] = [];
+  
+  // Check for current draft
+  const currentDraft = localStorage.getItem('current-signal-draft');
+  if (currentDraft) {
+    try {
+      const draftData = JSON.parse(currentDraft);
+      if (draftData.signalName && draftData.isDraft) {
+        drafts.push({
+          id: 'current-draft',
+          name: draftData.signalName,
+          channel: 'slack', // TODO: Determine from config
+          status: 'draft'
+        });
+      }
+    } catch (error) {
+      console.error('Error loading draft signal:', error);
+    }
+  }
+  
+  return drafts;
+};
 
 // Helper functions
 const getChannelIcon = (channel: Signal['channel']) => {
@@ -56,6 +82,7 @@ const getEditPath = (channel: Signal['channel']) => {
 function SignalCard({ signal }: { signal: Signal }) {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { loadFromStorage } = useSignalConfig();
   
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -87,6 +114,14 @@ function SignalCard({ signal }: { signal: Signal }) {
     // TODO: Implement delete
     console.log(`Delete signal ${signal.id}`);
   };
+
+  const handleEdit = () => {
+    // If it's a draft signal, load the data from storage first
+    if (signal.status === 'draft' && signal.id === 'current-draft') {
+      loadFromStorage('current-signal-draft');
+    }
+    window.location.href = getEditPath(signal.channel);
+  };
   
   return (
     <div className="flex w-full items-center justify-between gap-4 rounded-md border border-solid border-neutral-border bg-default-background px-6 py-4 transition-all hover:shadow-sm">
@@ -103,9 +138,6 @@ function SignalCard({ signal }: { signal: Signal }) {
             <Badge variant={getStatusVariant(signal.status)}>
               {signal.status.charAt(0).toUpperCase() + signal.status.slice(1)}
             </Badge>
-            <span className="text-caption font-caption text-subtext-color capitalize">
-              {signal.channel}
-            </span>
           </div>
         </div>
       </div>
@@ -113,7 +145,7 @@ function SignalCard({ signal }: { signal: Signal }) {
       <div className="relative" ref={dropdownRef}>
         <div className="flex items-center rounded-md border border-solid border-neutral-border bg-white">
           <button
-            onClick={() => window.location.href = getEditPath(signal.channel)}
+            onClick={handleEdit}
             className="flex items-center gap-2 px-3 py-2 text-body font-body text-default-font hover:bg-neutral-50 transition-colors rounded-l-md border-r border-solid border-neutral-border"
           >
             <FeatherEdit className="w-4 h-4" />
@@ -281,7 +313,7 @@ function SignalList({ signals }: { signals: Signal[] }) {
         
         <div className="flex w-full flex-col gap-3 bg-neutral-25 rounded-lg py-4">
           <span className="text-body font-body text-subtext-color">
-            Create new signal
+            Create a new signal
           </span>
           <div className="flex items-center gap-3">
             <button
@@ -360,14 +392,27 @@ function SignalList({ signals }: { signals: Signal[] }) {
   );
 }
 
-export default function SignalsPage() {
-  // For MVP, we'll show the sample signals
-  // In production, this would fetch from an API
-  const signals = sampleSignals;
+function SignalsPageContent() {
+  const [signals, setSignals] = useState<Signal[]>([]);
+  
+  useEffect(() => {
+    // Load signals (sample + drafts)
+    const draftSignals = loadDraftSignals();
+    const allSignals = [...sampleSignals, ...draftSignals];
+    setSignals(allSignals);
+  }, []);
   
   return signals.length > 0 ? (
     <SignalList signals={signals} />
   ) : (
     <NoSignalPlaceholder />
+  );
+}
+
+export default function SignalsPage() {
+  return (
+    <SignalConfigProvider>
+      <SignalsPageContent />
+    </SignalConfigProvider>
   );
 }
