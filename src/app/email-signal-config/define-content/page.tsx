@@ -11,7 +11,6 @@ import {
   FeatherCpu, 
   FeatherX, 
   FeatherArrowLeft,
-  FeatherEye,
   FeatherUser, 
   FeatherBarChart3, 
   FeatherClock, 
@@ -38,11 +37,6 @@ interface Block {
   buttonStyle?: "primary" | "secondary" | "outline"; // for buttons
 }
 
-interface DocumentState {
-  title: string;
-  subject: string;
-  blocks: Block[];
-}
 
 interface SlashCommandMenuProps {
   position: { x: number; y: number };
@@ -844,7 +838,7 @@ export default function DefineEmailContent() {
                             <span className="text-caption-bold font-caption-bold text-brand-700">AI Generated</span>
                           </div>
                           <div className="text-body font-body text-neutral-700">
-                            [Dynamic content will be generated based on: "{block.content}"]
+                            [Dynamic content will be generated based on: &ldquo;{block.content}&rdquo;]
                           </div>
                         </div>
                       )}

@@ -23,7 +23,7 @@ interface SignalData {
   timeWindow?: string;
   checkFrequency?: string;
   cooldownPeriod?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface TriggerSectionProps {
@@ -41,9 +41,9 @@ export function TriggerSection({
   setActiveTriggerTab,
   isTriggerOpen,
   setIsTriggerOpen,
-  validationData,
-  updateData,
-  getFieldError
+  validationData: _validationData,
+  updateData: _updateData,
+  getFieldError: _getFieldError
 }: TriggerSectionProps) {
   return (
     <div className="flex w-full flex-col items-start rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6">

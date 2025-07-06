@@ -51,6 +51,9 @@ export interface SignalData {
   
   // Content section
   hasContent: boolean;
+  
+  // Index signature for additional properties
+  [key: string]: unknown;
 }
 
 const validateReceiver = (data: SignalData): ValidationError[] => {

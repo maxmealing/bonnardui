@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 
-interface UseAutoSaveOptions {
-  data: any;
-  onSave: (data: any) => Promise<void> | void;
+interface UseAutoSaveOptions<T = unknown> {
+  data: T;
+  onSave: (data: T) => Promise<void> | void;
   delay?: number; // milliseconds to wait after last change before saving
   enabled?: boolean;
 }
@@ -14,12 +14,12 @@ interface UseAutoSaveReturn {
   manualSave: () => Promise<void>;
 }
 
-export function useAutoSave({
+export function useAutoSave<T = unknown>({
   data,
   onSave,
   delay = 2000, // 2 seconds default
   enabled = true
-}: UseAutoSaveOptions): UseAutoSaveReturn {
+}: UseAutoSaveOptions<T>): UseAutoSaveReturn {
   const [isSaving, setIsSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);

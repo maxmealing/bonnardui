@@ -4,7 +4,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { DefaultPageLayout } from "@/ui/layouts/DefaultPageLayout";
 import { Button } from "@/ui/components/Button";
 import { IconButton } from "@/ui/components/IconButton";
-import { TextField } from "@/ui/components/TextField";
 import { 
   FeatherPlus, 
   FeatherCode, 
@@ -13,7 +12,6 @@ import {
   FeatherX, 
   FeatherSave, 
   FeatherArrowLeft,
-  FeatherEye,
   FeatherUser, 
   FeatherBarChart3, 
   FeatherClock, 
@@ -199,13 +197,14 @@ interface FieldComponentProps {
 
 function FieldComponent({ field, onUpdate, onDelete, onShowVariableMenu }: FieldComponentProps) {
   const [isFocused, setIsFocused] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const getFieldConfig = () => {
     return fieldTypeConfig[field.type];
   };
 
-  const handleVariableMenu = (e: React.MouseEvent) => {
+  const handleVariableMenu = () => {
     const rect = inputRef.current?.getBoundingClientRect();
     if (rect) {
       onShowVariableMenu(field.id, { x: rect.left, y: rect.bottom + 8 });
@@ -213,7 +212,6 @@ function FieldComponent({ field, onUpdate, onDelete, onShowVariableMenu }: Field
   };
 
   const renderTypeMenu = () => {
-    const [showMenu, setShowMenu] = useState(false);
     
     return (
       <div className="relative">
@@ -467,11 +465,11 @@ export default function DefineWebhookContent() {
     setActiveFieldId(null);
   };
 
-  const generateJSON = (fields: Field[]): any => {
-    const result: any = {};
+  const generateJSON = (fields: Field[]): Record<string, string | number | boolean> => {
+    const result: Record<string, string | number | boolean> = {};
     
     for (const field of fields) {
-      let value: any = field.value;
+      let value: string | number | boolean = field.value;
       if (field.type === 'number') {
         value = parseFloat(value) || 0;
       } else if (field.type === 'boolean') {

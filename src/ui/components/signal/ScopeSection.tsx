@@ -11,7 +11,7 @@ interface SignalData {
   selectedMetrics: string[];
   signalPrompt: string;
   timeFrame?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface ScopeSectionProps {
@@ -29,9 +29,9 @@ export function ScopeSection({
   setSelectedMetrics,
   isScopeOpen,
   setIsScopeOpen,
-  validationData,
-  updateData,
-  getFieldError
+  validationData: _validationData,
+  updateData: _updateData,
+  getFieldError: _getFieldError
 }: ScopeSectionProps) {
   const metricNames: Record<string, string> = {
     "user-engagement": "User Engagement",

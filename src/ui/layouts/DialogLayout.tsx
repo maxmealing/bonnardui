@@ -6,7 +6,6 @@
  */
 
 import React from "react";
-import * as SubframeUtils from "../utils";
 import { Dialog } from "../components/Dialog";
 
 interface DialogLayoutRootProps extends React.ComponentProps<typeof Dialog> {
@@ -20,7 +19,7 @@ const DialogLayoutRoot = React.forwardRef<HTMLElement, DialogLayoutRootProps>(
     ref
   ) {
     return (
-      <Dialog className={className} ref={ref as any} {...otherProps}>
+      <Dialog className={className} ref={ref as React.RefObject<HTMLDivElement>} {...otherProps}>
         <Dialog.Content>
           {children ? (
             <div className="flex w-full grow shrink-0 basis-0 items-start gap-6">

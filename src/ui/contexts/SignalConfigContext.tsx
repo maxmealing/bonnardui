@@ -59,7 +59,14 @@ interface SignalConfigContextType {
   markAsDraft: () => void;
   validateSignalName: (name: string) => { isValid: boolean; errors: string[] };
   getRecipientName: (recipientId: string) => string;
-  generatePersonalizedPreview: (recipientId?: string) => any;
+  generatePersonalizedPreview: (recipientId?: string) => {
+    userName: string;
+    timePeriod: string;
+    metricValue: string;
+    previousValue: string;
+    changePercentage: string;
+    trendDirection: string;
+  };
 }
 
 const defaultData: SignalConfigData = {

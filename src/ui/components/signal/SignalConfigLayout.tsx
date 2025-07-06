@@ -6,7 +6,7 @@ import { Button } from "@/ui/components/Button";
 import { IconButton } from "@/ui/components/IconButton";
 import { AutoSaveIndicator } from "@/ui/components/AutoSaveIndicator";
 import { EditableTitle } from "@/ui/components/EditableTitle";
-import { FeatherArrowLeft, FeatherEye, FeatherMaximize2, FeatherMinimize2, FeatherCheck, FeatherAlertCircle } from "@subframe/core";
+import { FeatherArrowLeft, FeatherEye, FeatherMaximize2, FeatherMinimize2 } from "@subframe/core";
 import { useSignalConfig } from "@/ui/contexts/SignalConfigContext";
 import { PreviewControls } from "@/ui/components/signal/PreviewControls";
 
@@ -41,7 +41,7 @@ export function SignalConfigLayout({
   children, 
   previewContent,
   renderPersonalizedContent,
-  validationState,
+  validationState: _validationState,
   autoSave,
   onLaunchClick,
   canLaunch: canLaunchProp
@@ -130,7 +130,7 @@ export function SignalConfigLayout({
     }
   };
 
-  const updatePreviewForCurrentRecipient = () => {
+  const updatePreviewForCurrentRecipient = React.useCallback(() => {
     if (hasGeneratedPreviews && data.selectedRecipients.length > 0 && renderPersonalizedContent) {
       const currentRecipient = data.selectedRecipients[currentRecipientIndex];
       if (currentRecipient) {
@@ -141,12 +141,12 @@ export function SignalConfigLayout({
       // Show template/prompt version by default
       setCurrentPreviewContent(previewContent);
     }
-  };
+  }, [hasGeneratedPreviews, data.selectedRecipients, currentRecipientIndex, renderPersonalizedContent, previewContent]);
 
   // Update preview content when recipient changes
   React.useEffect(() => {
     updatePreviewForCurrentRecipient();
-  }, [currentRecipientIndex, hasGeneratedPreviews, data.selectedRecipients, renderPersonalizedContent]);
+  }, [updatePreviewForCurrentRecipient]);
 
   const handleConfigureRecipients = () => {
     // Navigate to the receiver section or scroll to it

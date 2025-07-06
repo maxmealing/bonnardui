@@ -8,7 +8,19 @@ import { FeatherX } from "@subframe/core";
 import { TriggerSection, ScopeSection, ContentSection, SignalConfigLayout, TooltipField, useSignalValidation, useAutoSave, SignalConfigProvider, useSignalConfig } from "@/ui";
 
 // Recipient data for personalized previews
-const recipientData: Record<string, any> = {
+const recipientData: Record<string, {
+  name: string;
+  firstName: string;
+  metrics: {
+    activeUsers: string;
+    sessionDuration: string;
+    pageViews: string;
+    trend: string;
+    changePercent: string;
+    previousValue: string;
+  };
+  insights: string;
+}> = {
   "me": {
     name: "You",
     firstName: "You",

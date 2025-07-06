@@ -39,7 +39,7 @@ const DefaultPageLayoutRoot = React.forwardRef<
         "flex h-screen w-full items-center",
         className
       )}
-      ref={ref as any}
+      ref={ref as React.RefObject<HTMLDivElement>}
       {...otherProps}
     >
       <SidebarRailWithLabels
@@ -48,6 +48,7 @@ const DefaultPageLayoutRoot = React.forwardRef<
             <img
               className="h-6 w-6 flex-none object-cover"
               src="https://res.cloudinary.com/subframe/image/upload/v1751013286/uploads/15436/ojozrh7lowper2q3npma.png"
+              alt="Bonnard Logo"
             />
           </div>
         }
