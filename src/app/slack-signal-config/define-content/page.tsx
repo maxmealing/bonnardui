@@ -467,35 +467,7 @@ function BlockComponent({ block, blocks, onUpdate, onDelete, onAddBlock, onShowS
 
 function DefineContentPage() {
   const { data: contextData, updateData: updateContextData } = useSignalConfig();
-  const [blocks, setBlocks] = useState<Block[]>(contextData.contentBlocks.length > 0 ? contextData.contentBlocks as Block[] : [
-    {
-      id: '1',
-      type: 'heading' as BlockType,
-      content: '📊 Weekly User Engagement Report',
-      level: 1
-    },
-    {
-      id: '2',
-      type: 'text' as BlockType,
-      content: 'Hey {{user_name}}! Here\'s your weekly engagement summary for {{time_period}}:'
-    },
-    {
-      id: '3',
-      type: 'heading' as BlockType,
-      content: 'Key Metrics',
-      level: 2
-    },
-    {
-      id: '4',
-      type: 'text' as BlockType,
-      content: '• Active Users: {{metric_value}} ({{trend_direction}} {{change_percentage}}% from {{previous_value}})\n• Session Duration: {{metric_value}} minutes\n• Page Views: {{metric_value}}'
-    },
-    {
-      id: '5',
-      type: 'ai-prompt' as BlockType,
-      content: 'Generate a brief insight about the user engagement trends based on {{metric_value}} and {{change_percentage}}, highlighting what actions could improve engagement next week.'
-    }
-  ]);
+  const [blocks, setBlocks] = useState<Block[]>(contextData.contentBlocks.length > 0 ? contextData.contentBlocks as Block[] : []);
   
   const [showSlashMenu, setShowSlashMenu] = useState(false);
   const [showVariableMenu, setShowVariableMenu] = useState(false);

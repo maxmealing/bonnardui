@@ -552,47 +552,8 @@ function BlockComponent({ block, blocks, onUpdate, onDelete, onAddBlock, onShowS
 }
 
 export default function DefineEmailContent() {
-  const [subject, setSubject] = useState('📈 Daily Revenue Alert - {{time_period}}');
-  const [blocks, setBlocks] = useState<Block[]>([
-    {
-      id: '1',
-      type: 'heading',
-      content: 'Daily Revenue Summary',
-      level: 1
-    },
-    {
-      id: '2',
-      type: 'text',
-      content: 'Hello {{user_name}},\n\nHere\'s your daily revenue report for {{time_period}}:'
-    },
-    {
-      id: '3',
-      type: 'heading',
-      content: '💰 Revenue Metrics',
-      level: 2
-    },
-    {
-      id: '4',
-      type: 'text',
-      content: 'Total Revenue: ${{metric_value}}\nChange from yesterday: {{trend_direction}} {{change_percentage}}%\nPrevious day: ${{previous_value}}'
-    },
-    {
-      id: '5',
-      type: 'ai-prompt',
-      content: 'Analyze the revenue trend for {{time_period}} based on {{metric_value}} compared to {{previous_value}}. Provide 2-3 actionable insights for improving revenue.'
-    },
-    {
-      id: '6',
-      type: 'button',
-      content: 'View Full Dashboard',
-      url: 'https://analytics.example.com/dashboard'
-    },
-    {
-      id: '7',
-      type: 'text',
-      content: '\nBest regards,\nThe Analytics Team'
-    }
-  ]);
+  const [subject, setSubject] = useState('');
+  const [blocks, setBlocks] = useState<Block[]>([]);
   
   const [showSlashMenu, setShowSlashMenu] = useState(false);
   const [showVariableMenu, setShowVariableMenu] = useState(false);

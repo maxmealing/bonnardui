@@ -106,14 +106,15 @@ export function TriggerSection({
               
               <RadioCardGroup.RadioCard 
                 value="agent-triggered"
-                className="flex items-center gap-3 p-3"
+                className="flex items-center gap-3 p-3 opacity-50 cursor-not-allowed"
+                disabled
               >
                 <div className="flex-1">
-                  <div className="text-body-bold font-body-bold text-default-font">
+                  <div className="text-body-bold font-body-bold text-neutral-400">
                     Agent Triggered
                   </div>
-                  <div className="text-caption font-caption text-subtext-color">
-                    Data-driven
+                  <div className="text-caption font-caption text-neutral-400">
+                    Coming soon
                   </div>
                 </div>
               </RadioCardGroup.RadioCard>
