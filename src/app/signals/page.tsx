@@ -23,9 +23,7 @@ interface Signal {
 
 // Sample signal data
 const sampleSignals: Signal[] = [
-  { id: "1", name: "Weekly User Engagement Report", channel: "slack", status: "active" },
-  { id: "2", name: "Daily Revenue Alert", channel: "email", status: "active" },
-  { id: "3", name: "Performance Anomaly Detection", channel: "webhook", status: "draft" }
+  { id: "1", name: "Weekly User Engagement Report", channel: "slack", status: "active" }
 ];
 
 // Function to load draft signals from localStorage
@@ -242,24 +240,20 @@ function NoSignalPlaceholder() {
                         Slack
                       </span>
                     </button>
-                    <button
-                      onClick={() => window.location.href = '/webhook-signal-config'}
-                      className="flex flex-col items-center gap-2 p-2 rounded-lg hover:bg-neutral-100 transition-colors cursor-pointer"
-                    >
+                    <div className="flex flex-col items-center gap-2 p-2 rounded-lg opacity-50 cursor-not-allowed">
                       <IconWithBackground size="large" icon={<FeatherCode />} />
-                      <span className="text-caption font-caption text-default-font">
+                      <span className="text-caption font-caption text-neutral-400">
                         Webhook
                       </span>
-                    </button>
-                    <button
-                      onClick={() => window.location.href = '/email-signal-config'}
-                      className="flex flex-col items-center gap-2 p-2 rounded-lg hover:bg-neutral-100 transition-colors cursor-pointer"
-                    >
+                      <span className="text-xs text-neutral-400">Coming soon</span>
+                    </div>
+                    <div className="flex flex-col items-center gap-2 p-2 rounded-lg opacity-50 cursor-not-allowed">
                       <IconWithBackground size="large" icon={<FeatherMail />} />
-                      <span className="text-caption font-caption text-default-font">
+                      <span className="text-caption font-caption text-neutral-400">
                         Email
                       </span>
-                    </button>
+                      <span className="text-xs text-neutral-400">Coming soon</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -334,42 +328,36 @@ function SignalList({ signals }: { signals: Signal[] }) {
                 </div>
               </div>
             </button>
-            <button
-              onClick={() => window.location.href = '/email-signal-config'}
-              className="flex flex-col items-start gap-2 p-4 rounded-lg bg-white border border-solid border-neutral-200 hover:border-neutral-300 hover:shadow-sm transition-all duration-200 cursor-pointer flex-1"
-            >
+            <div className="flex flex-col items-start gap-2 p-4 rounded-lg bg-neutral-50 border border-solid border-neutral-200 cursor-not-allowed opacity-50 flex-1">
               <div className="flex items-center gap-3">
                 <div className="flex items-center justify-center w-8 h-8 rounded-md bg-neutral-100">
-                  <FeatherMail className="w-4 h-4 text-neutral-700" />
+                  <FeatherMail className="w-4 h-4 text-neutral-400" />
                 </div>
                 <div className="flex flex-col items-start">
-                  <span className="text-body-bold font-body-bold text-default-font">
+                  <span className="text-body-bold font-body-bold text-neutral-400">
                     Email
                   </span>
-                  <span className="text-caption font-caption text-subtext-color">
-                    Send to inbox
+                  <span className="text-caption font-caption text-neutral-400">
+                    Coming soon
                   </span>
                 </div>
               </div>
-            </button>
-            <button
-              onClick={() => window.location.href = '/webhook-signal-config'}
-              className="flex flex-col items-start gap-2 p-4 rounded-lg bg-white border border-solid border-neutral-200 hover:border-neutral-300 hover:shadow-sm transition-all duration-200 cursor-pointer flex-1"
-            >
+            </div>
+            <div className="flex flex-col items-start gap-2 p-4 rounded-lg bg-neutral-50 border border-solid border-neutral-200 cursor-not-allowed opacity-50 flex-1">
               <div className="flex items-center gap-3">
                 <div className="flex items-center justify-center w-8 h-8 rounded-md bg-neutral-100">
-                  <FeatherCode className="w-4 h-4 text-neutral-700" />
+                  <FeatherCode className="w-4 h-4 text-neutral-400" />
                 </div>
                 <div className="flex flex-col items-start">
-                  <span className="text-body-bold font-body-bold text-default-font">
+                  <span className="text-body-bold font-body-bold text-neutral-400">
                     Webhook
                   </span>
-                  <span className="text-caption font-caption text-subtext-color">
-                    Send to API
+                  <span className="text-caption font-caption text-neutral-400">
+                    Coming soon
                   </span>
                 </div>
               </div>
-            </button>
+            </div>
           </div>
         </div>
         

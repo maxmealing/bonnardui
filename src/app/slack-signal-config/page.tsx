@@ -73,7 +73,7 @@ const recipientData: Record<string, {
 
 function SlackSignalConfigContent() {
   const { data: contextData, updateData: updateContextData, getOverallStatus, canLaunch, validateSignalName } = useSignalConfig();
-  const [signalName, setSignalName] = useState(contextData.signalName || "Weekly User Engagement Report");
+  const [signalName, setSignalName] = useState(contextData.signalName || "");
   
   // Validation hook
   const { data, validationState, updateData, getFieldError, attemptLaunch, hasAttemptedLaunch } = useSignalValidation({
@@ -169,7 +169,7 @@ function SlackSignalConfigContent() {
         {/* Message content preview */}
         <div className="flex flex-col gap-2">
           <div className="text-heading-3 font-heading-3 text-default-font">
-            📊 Weekly User Engagement Report
+            {signalName || 'Signal Preview'}
           </div>
           <div className="text-body font-body text-default-font">
             Hey <span className="font-bold">{firstName}</span>! Here&apos;s your weekly engagement summary for <span className="font-bold">this week</span>:
@@ -217,27 +217,43 @@ function SlackSignalConfigContent() {
       {/* Message content preview */}
       <div className="flex flex-col gap-2">
         <div className="text-heading-3 font-heading-3 text-default-font">
-          📊 Weekly User Engagement Report
+          {signalName || 'Signal Preview'}
         </div>
-        <div className="text-body font-body text-default-font">
-          Hey <span className="font-bold">*user name*</span>! Here&apos;s your weekly engagement summary for <span className="font-bold">*time period*</span>:
-        </div>
-        <div className="text-body-bold font-body-bold text-default-font mt-2">
-          Key Metrics
-        </div>
-        <div className="text-body font-body text-default-font">
-          • Active Users: <span className="font-bold">*metric value*</span> (<span className="font-bold">*trend*</span> <span className="font-bold">*change %*</span>% from <span className="font-bold">*previous value*</span>)<br/>
-          • Session Duration: <span className="font-bold">*metric value*</span> minutes<br/>
-          • Page Views: <span className="font-bold">*metric value*</span>
-        </div>
-        <div className="border-l-2 pl-4 py-3 mt-2" style={{borderLeft: "2px solid", borderImage: "linear-gradient(to bottom, #a855f7, #3b82f6) 1"}}>
-          <div className="text-body-bold font-body-bold text-default-font mb-2">
-            Recommended focus
+{signalName ? (
+          <>
+            <div className="text-body font-body text-default-font">
+              Hey <span className="font-bold">*user name*</span>! Here&apos;s your weekly engagement summary for <span className="font-bold">*time period*</span>:
+            </div>
+            <div className="text-body-bold font-body-bold text-default-font mt-2">
+              Key Metrics
+            </div>
+            <div className="text-body font-body text-default-font">
+              • Active Users: <span className="font-bold">*metric value*</span> (<span className="font-bold">*trend*</span> <span className="font-bold">*change %*</span>% from <span className="font-bold">*previous value*</span>)<br/>
+              • Session Duration: <span className="font-bold">*metric value*</span> minutes<br/>
+              • Page Views: <span className="font-bold">*metric value*</span>
+            </div>
+            <div className="border-l-2 pl-4 py-3 mt-2" style={{borderLeft: "2px solid", borderImage: "linear-gradient(to bottom, #a855f7, #3b82f6) 1"}}>
+              <div className="text-body-bold font-body-bold text-default-font mb-2">
+                Recommended focus
+              </div>
+              <div className="text-body font-body text-neutral-700">
+                <span className="font-bold">*AI-generated recommendations based on user data and trends*</span>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="flex flex-col items-center gap-4 py-12">
+            <div className="text-body font-body text-neutral-500 text-center">
+              No content defined yet
+            </div>
+            <button
+              onClick={() => window.location.href = '/slack-signal-config/define-content'}
+              className="px-4 py-2 bg-brand-600 text-white rounded-md text-body-bold font-body-bold hover:bg-brand-700 transition-colors"
+            >
+              Define Content
+            </button>
           </div>
-          <div className="text-body font-body text-neutral-700">
-            <span className="font-bold">*AI-generated recommendations based on user data and trends*</span>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

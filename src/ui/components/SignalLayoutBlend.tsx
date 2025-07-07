@@ -49,46 +49,32 @@ function SignalLayoutBlend({ open, onOpenChange }: SignalLayoutBlendProps) {
               </div>
             </div>
           </div>
-          <div 
-            className={`flex flex-col items-start gap-2 p-4 rounded-lg cursor-pointer transition-all duration-200 ${
-              selectedType === "email" 
-                ? "bg-brand-50 border border-solid border-brand-200 shadow-sm" 
-                : "bg-white border border-solid border-neutral-200 hover:border-neutral-300 hover:shadow-sm"
-            }`}
-            onClick={() => setSelectedType("email")}
-          >
+          <div className="flex flex-col items-start gap-2 p-4 rounded-lg bg-neutral-50 border border-solid border-neutral-200 cursor-not-allowed opacity-50">
             <div className="flex items-center gap-3">
               <div className="flex items-center justify-center w-8 h-8 rounded-md bg-neutral-100">
-                <FeatherMail className="w-4 h-4 text-neutral-700" />
+                <FeatherMail className="w-4 h-4 text-neutral-400" />
               </div>
               <div className="flex flex-col items-start">
-                <span className="text-body-bold font-body-bold text-default-font">
+                <span className="text-body-bold font-body-bold text-neutral-400">
                   Email
                 </span>
-                <span className="text-caption font-caption text-subtext-color">
-                  Send to inbox
+                <span className="text-caption font-caption text-neutral-400">
+                  Coming soon
                 </span>
               </div>
             </div>
           </div>
-          <div 
-            className={`flex flex-col items-start gap-2 p-4 rounded-lg cursor-pointer transition-all duration-200 ${
-              selectedType === "webhook" 
-                ? "bg-brand-50 border border-solid border-brand-200 shadow-sm" 
-                : "bg-white border border-solid border-neutral-200 hover:border-neutral-300 hover:shadow-sm"
-            }`}
-            onClick={() => setSelectedType("webhook")}
-          >
+          <div className="flex flex-col items-start gap-2 p-4 rounded-lg bg-neutral-50 border border-solid border-neutral-200 cursor-not-allowed opacity-50">
             <div className="flex items-center gap-3">
               <div className="flex items-center justify-center w-8 h-8 rounded-md bg-neutral-100">
-                <FeatherCode className="w-4 h-4 text-neutral-700" />
+                <FeatherCode className="w-4 h-4 text-neutral-400" />
               </div>
               <div className="flex flex-col items-start">
-                <span className="text-body-bold font-body-bold text-default-font">
+                <span className="text-body-bold font-body-bold text-neutral-400">
                   Webhook
                 </span>
-                <span className="text-caption font-caption text-subtext-color">
-                  Send to API
+                <span className="text-caption font-caption text-neutral-400">
+                  Coming soon
                 </span>
               </div>
             </div>
